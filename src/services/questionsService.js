@@ -5,3 +5,7 @@ export async function getAllQuestions(user) {
     const data = await axios.get(url);
     return data;
 }
+export async function createNewQuestion(user) {
+    const data = await axios.get(url);
+    return data;
+}
