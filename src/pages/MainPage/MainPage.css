@@ -1,0 +1,7 @@
+.mainPage{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+.content{
+    min-height: 100vh;
+}

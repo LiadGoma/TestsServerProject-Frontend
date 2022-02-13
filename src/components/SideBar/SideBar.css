@@ -1,0 +1,25 @@
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    background-color: #12719c;
+    font-size: 1.2rem;
+    padding: 1rem;
+    gap: 1rem;
+    position: fixed;
+    width: 15%;
+    min-height: 100%;
+}
+.navlink{
+    text-decoration: none;
+    cursor: pointer;
+    color: cornsilk;
+    width: 100%;
+    
+
+}
+.navlink:hover{
+    opacity: 0.3;
+}
+.navlink:active{
+    opacity: 0.2;
+}
