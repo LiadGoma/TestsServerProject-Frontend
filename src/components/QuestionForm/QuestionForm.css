@@ -29,3 +29,18 @@ label{
     border-radius: 5px;
     padding: 1rem;
 }
+.bottomBtns{
+    align-self: flex-end;
+}
+.formBtn{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 0;
+    margin: 1rem;
+    padding: 1rem;
+}
+.green{
+    background-color: rgb(105, 231, 105);
+}
