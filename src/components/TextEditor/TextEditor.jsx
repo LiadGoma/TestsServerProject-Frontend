@@ -14,6 +14,7 @@ function TextEditor({ height, changeHandler }) {
   return (
     <>
       <Editor
+        apiKey='k0fdaukpeela4qfplxtbe4hs825w0nxu39z9bgsmm2riqycu'
         onInit={(evt, editor) => editorRef.current = editor}
         onChange={handleChange}
         initialValue="Type something"

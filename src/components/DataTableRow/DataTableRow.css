@@ -1,0 +1,8 @@
+.editBtn{
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1rem;
+}

@@ -5,7 +5,9 @@ import DataTable from '../../components/DataTable/DataTable';
 
 function QuestionsManager() {
     const [questions, setQuestions] = useState([]);
+    const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [list, setList] = useState([]);
+    const [tagsFilter, setTagsFilter] = useState("");
 
     const colNames = ["Id", "Question text and tags", "LastUpdate", "question type", "# of tags", ""];
 
@@ -14,25 +16,37 @@ function QuestionsManager() {
         const setQuestionsData = async () => {
             const { data } = await getAllQuestions();
             setQuestions(data);
+            setFilteredQuestions(data);
         }
         setQuestionsData();
     }, []);
     useEffect(() => {
         let index = 0;
-        const tempList = questions?.map((question) => {
+        const tempList = filteredQuestions?.map((question) => {
             index++;
             return {
-                id: index,
+                id: question._id,
+                index,
                 questionContent: question.questionContent,
                 lastUpdated: question.lastUpdated,
-                tags: question.tags
+                questionType: question.isMultichoice ? "multiple" : "single",
+                tags: question.tags,
             }
         });
         setList(tempList);
-    }, [questions])
+    }, [filteredQuestions])
 
-    const handleClick=()=>{
-        window.location="/addNewQuestion";
+    const handleClick = () => {
+        window.location = "/addNewQuestion";
+    }
+    const handleEditClick = async (id) => {
+        console.log(id);
+        localStorage.setItem("editQuestion", id);
+        window.location = "/editQuestion";
+    }
+    const filterChangeHandler = (e) => {
+        setTagsFilter(e.target.value);
+        setFilteredQuestions(questions.filter((question) => question.tags.filter((tag) => tag.incldes(tagsFilter))))
     }
 
 
@@ -41,9 +55,9 @@ function QuestionsManager() {
             <h3>Available questions for</h3>
             <div className='filter'>
                 <div>Filter by tags or content</div>
-                <input></input>
+                <input value={tagsFilter} onChange={filterChangeHandler}></input>
             </div>
-            <DataTable list={list} colNames={colNames} />
+            <DataTable list={list} colNames={colNames} editClick={handleEditClick} />
             <button className='btn' onClick={handleClick}>ADD NEW QUESTION</button>
         </div>
 

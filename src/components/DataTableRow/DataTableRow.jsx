@@ -1,15 +1,22 @@
 import React from 'react'
+import "./DataTableRow.css";
+function DataTableRow({ obj, editClick }) {
 
-function DataTableRow({ obj }) {
+    let values = Object.values(obj);
+    const id = values[0];
+    values = values.filter((value) => value != id);
 
-    const values = Object.values(obj);
-    console.log(values);
+    const clickHandler = () => {
+        editClick(id);
+    }
     return (
         <tr>
             {values?.map((value, index2) => {
-                console.log("value");
                 return <td key={index2}>{value}</td>
             })}
+            <td>
+                <button className='editBtn' onClick={clickHandler}>EDIT</button>
+            </td>
         </tr>
 
     )

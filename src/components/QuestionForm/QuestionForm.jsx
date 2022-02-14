@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Answer from '../Answer/Answer';
 import TextEditor from '../TextEditor/TextEditor';
+import { createNewQuestion, getQuestionById } from "../../services/questionsService";
+
 import "./QuestionForm.css";
 
 
-function QuestionForm() {
+function QuestionForm({edit}) {
     const [isMultiChoice, setIsMultiChoice] = useState(false);
     const [isHorizontal, setIsHorizontal] = useState(true);
     const [questionText, setQuestionText] = useState("");
@@ -12,6 +14,11 @@ function QuestionForm() {
     const [answers, setAnswers] = useState([]);
     const [tags, setTags] = useState([]);
 
+    useEffect(() => {
+        console.log(edit)
+
+
+    }, [])
 
     useEffect(() => {
         const tempAnswers = [
@@ -53,20 +60,31 @@ function QuestionForm() {
         console.log(tempAnswers);
         setAnswers(tempAnswers);
     }
-    const handleSaveClick=()=>{
+    const handleSaveClick = () => {
         console.log(isMultiChoice);
         console.log(isHorizontal);
         console.log(questionText);
         console.log(extraContent);
         console.log(answers);
         console.log(tags);
+        const newQuestion = {
+            field: "aaa",
+            isMultichoice: isMultiChoice,
+            isHorizontal,
+            questionContent: questionText,
+            extraContent,
+            answers,
+            tags
+        }
+        createNewQuestion(newQuestion);
+        window.location = "/questionsManager";
     }
     return (
         <div className='form'>
             <div className='field'>
                 <label>Question Type</label>
-                <select onChange={selectQuestionTypeChangeHandler}>
-                    <option value={false} selected>Single Choice Question</option>
+                <select value={"Single Choice Question"} onChange={selectQuestionTypeChangeHandler}>
+                    <option value={false} >Single Choice Question</option>
                     <option value={true}>Multi Choice Question</option>
                 </select>
             </div>
@@ -82,8 +100,8 @@ function QuestionForm() {
             <div className='field'>
                 <label>Possible Answers</label>
                 <div className='answers'>
-                    {answers.map((answer) => {
-                        return <Answer isMultiChoice={isMultiChoice} changeAnswer={changeAnswer} id={answer.id} />
+                    {answers.map((answer, index) => {
+                        return <Answer key={index} isMultiChoice={isMultiChoice} changeAnswer={changeAnswer} id={answer.id} />
                     })}
                     <button className='answerBtn' onClick={addAnswerClickHandler}>ADD AN ANSWER</button>
                 </div>
@@ -93,9 +111,9 @@ function QuestionForm() {
             <div className='field'>
                 <label>Answers Layout</label>
                 <input type="radio" onChange={selectIsHorizontalChangeHandler} name="layout" value={true} id="horizontal" />
-                <label for="horizontal">Horizontal</label>
+                <label htmlFor="horizontal">Horizontal</label>
                 <input type="radio" onChange={selectIsHorizontalChangeHandler} name="layout" value={false} id="vertical" />
-                <label for="vertical">Vertical</label>
+                <label htmlFor="vertical">Vertical</label>
             </div>
             <div className='field'>
                 <label>Tags</label>
