@@ -24,7 +24,7 @@ function Answer({ isMultiChoice, id, changeAnswer }) {
             <button className='answerButton'>x</button>
             <TextEditor height={150} changeHandler={textChangeHandler} />
             <input type={isMultiChoice ? "checkbox" : "radio"} onChange={changeHandler} name="isCorrects" id="isCorrect" />
-            <label for="isCorrect"  >{isAnswerCorrect ? "incorrect" : "correct"}</label>
+            <label htmlFor="isCorrect"  >{isAnswerCorrect ? "incorrect" : "correct"}</label>
         </div>
     )
 }
