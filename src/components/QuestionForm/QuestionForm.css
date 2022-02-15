@@ -44,3 +44,6 @@ label{
 .green{
     background-color: rgb(105, 231, 105);
 }
+.error{
+    color: red;
+}

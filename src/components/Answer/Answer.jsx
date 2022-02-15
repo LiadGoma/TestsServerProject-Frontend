@@ -2,28 +2,28 @@ import React, { useEffect, useState } from 'react'
 import TextEditor from '../TextEditor/TextEditor'
 import "./Answer.css"
 
-function Answer({ isMultiChoice, id, changeAnswer }) {
+function Answer({ id, changeAnswer, deleteHandler }) {
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
-    const [isMulti, setIsMulti] = useState(isMultiChoice);
     const [content, setContent] = useState("");
 
-    useEffect(() => {
-        setIsMulti(isMultiChoice);
-    }, [isMultiChoice])
-
-    const changeHandler = () => {
-        setIsAnswerCorrect(!isAnswerCorrect);
-        changeAnswer(id, content, isAnswerCorrect);
+    const changeHandler = async () => {
+        console.log(isAnswerCorrect + "----");
+        setIsAnswerCorrect((prev) => !prev);
+        console.log(isAnswerCorrect + "-----");
+        changeAnswer(id, content, !isAnswerCorrect);
     }
     const textChangeHandler = (value) => {
         setContent(value);
         changeAnswer(id, content, isAnswerCorrect);
     }
+    const deleteBtnHandler = () => {
+        deleteHandler(id);
+    }
     return (
         <div className='answer'>
-            <button className='answerButton'>x</button>
+            <button className='answerButton' onClick={deleteBtnHandler}>x</button>
             <TextEditor height={150} changeHandler={textChangeHandler} />
-            <input type={isMultiChoice ? "checkbox" : "radio"} onChange={changeHandler} name="isCorrects" id="isCorrect" />
+            <input type="checkbox" onChange={changeHandler} name="isCorrects" id="isCorrect" />
             <label htmlFor="isCorrect"  >{isAnswerCorrect ? "incorrect" : "correct"}</label>
         </div>
     )
