@@ -10,9 +10,10 @@ function Question({ content, extraContent, answers, isHorizontal, isMultiChoice 
             {console.log(answers)}
             <div className='answers'>
                 {answers.map((answer) => {
-                    return <div>
+                    return <div className='choice'>
                         <input type="checkbox" ></input>
-                        <label>{answer.content}</label>
+                        {console.log(answer.content)}
+                        <div className='choiceContent'>{ReactHtmlParser(answer.content)}</div>
                     </div>
                 })}
             </div>

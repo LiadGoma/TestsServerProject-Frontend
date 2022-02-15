@@ -60,9 +60,7 @@ function QuestionForm({ edit }) {
         setAnswers(tempAnswers);
     }
     const changeAnswer = (id, content, isCorrect) => {
-        console.log(id);
-        console.log(content);
-        console.log(isCorrect);
+        console.log(content + "----")
         const tempAnswers = [...answers];
         tempAnswers[id].content = content;
         tempAnswers[id].isCorrect = isCorrect;
@@ -85,7 +83,7 @@ function QuestionForm({ edit }) {
         // console.log(isHorizontal);
         // console.log(questionText);
         // console.log(extraContent);
-        // console.log(answers);
+         console.log(answers);
         // console.log(tags);
         const validateErrors = validateQuestion({
             isHorizontal,

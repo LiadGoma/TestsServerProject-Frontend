@@ -14,7 +14,7 @@ function Answer({ id, changeAnswer, deleteHandler }) {
     }
     const textChangeHandler = (value) => {
         setContent(value);
-        changeAnswer(id, content, isAnswerCorrect);
+        changeAnswer(id, value, isAnswerCorrect);
     }
     const deleteBtnHandler = () => {
         deleteHandler(id);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./QuestionsManager.css";
 import { getAllQuestions } from "../../services/questionsService"
 import DataTable from '../../components/DataTable/DataTable';
+import ReactHtmlParser from 'react-html-parser';
 
 function QuestionsManager() {
     const [questions, setQuestions] = useState([]);
@@ -22,12 +23,13 @@ function QuestionsManager() {
     }, []);
     useEffect(() => {
         let index = 0;
+        console.log(filteredQuestions);
         const tempList = filteredQuestions?.map((question) => {
             index++;
             return {
                 id: question._id,
                 index,
-                questionContent: question.questionContent,
+                questionContent:ReactHtmlParser(question.questionContent),
                 lastUpdated: question.lastUpdated,
                 questionType: question.isMultichoice ? "multiple" : "single",
                 tags: question.tags,
@@ -46,7 +48,8 @@ function QuestionsManager() {
     }
     const filterChangeHandler = (e) => {
         setTagsFilter(e.target.value);
-        setFilteredQuestions(questions.filter((question) => question.tags.filter((tag) => tag.incldes(tagsFilter))))
+        const filtered = questions.filter((question) => question.tags.filter((tag) => tag.includes(e.target.value)).length > 0);
+        setFilteredQuestions(filtered);
     }
 
 
