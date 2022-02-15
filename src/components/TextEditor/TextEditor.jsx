@@ -3,11 +3,7 @@ import React, { useRef } from 'react'
 
 function TextEditor({ height, changeHandler }) {
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+
   const handleChange = (e) => {
     changeHandler(editorRef.current.getContent());
   }
@@ -17,7 +13,7 @@ function TextEditor({ height, changeHandler }) {
         apiKey='k0fdaukpeela4qfplxtbe4hs825w0nxu39z9bgsmm2riqycu'
         onInit={(evt, editor) => editorRef.current = editor}
         onChange={handleChange}
-        initialValue="Type something"
+        initialValue=""
         init={{
           height: height,
           menubar: false,
