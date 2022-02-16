@@ -1,7 +1,7 @@
 import { Editor } from '@tinymce/tinymce-react';
 import React, { useRef } from 'react'
 
-function TextEditor({ height, changeHandler }) {
+function TextEditor({ height, changeHandler, initValue }) {
   const editorRef = useRef(null);
 
   const handleChange = (e) => {
@@ -13,7 +13,7 @@ function TextEditor({ height, changeHandler }) {
         apiKey='k0fdaukpeela4qfplxtbe4hs825w0nxu39z9bgsmm2riqycu'
         onInit={(evt, editor) => editorRef.current = editor}
         onChange={handleChange}
-        initialValue=""
+        initialValue={initValue}
         init={{
           height: height,
           menubar: false,

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import "./QuestionsManager.css";
-import { getAllQuestions } from "../../services/questionsService"
+import { getAllQuestions, getQuestionById } from "../../services/questionsService"
 import DataTable from '../../components/DataTable/DataTable';
 import ReactHtmlParser from 'react-html-parser';
+import Modal from '../../components/Modal/Modal';
+import Question from '../../components/Question/Question';
 
 function QuestionsManager() {
     const [questions, setQuestions] = useState([]);
     const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [list, setList] = useState([]);
     const [tagsFilter, setTagsFilter] = useState("");
+    const [showQuestion, setShowQuestion] = useState(false);
+    const [questionShow, setQuestionShow] = useState({});
 
-    const colNames = ["Id", "Question text and tags", "LastUpdate", "question type", "# of tags", ""];
+    const colNames = ["Id", "Question text and tags", "Last Update", "Question type", "Field", ""];
 
 
     useEffect(() => {
@@ -23,16 +27,17 @@ function QuestionsManager() {
     }, []);
     useEffect(() => {
         let index = 0;
-        console.log(filteredQuestions);
         const tempList = filteredQuestions?.map((question) => {
             index++;
+            let date = new Date(question.lastUpdated);
+            date = date.toLocaleDateString();
             return {
                 id: question._id,
                 index,
-                questionContent:ReactHtmlParser(question.questionContent),
-                lastUpdated: question.lastUpdated,
+                questionContent: [ReactHtmlParser(question.questionContent), ...question.tags],
+                lastUpdated: date,
                 questionType: question.isMultichoice ? "multiple" : "single",
-                tags: question.tags,
+                field: question.field,
             }
         });
         setList(tempList);
@@ -42,9 +47,16 @@ function QuestionsManager() {
         window.location = "/addNewQuestion";
     }
     const handleEditClick = async (id) => {
-        console.log(id);
         localStorage.setItem("editQuestion", id);
         window.location = "/editQuestion";
+    }
+    const handleShowClick = async (id) => {
+        const {data} = await getQuestionById(id);
+        setQuestionShow(data);
+        setShowQuestion(true);
+    }
+    const closeModal = () => {
+        setShowQuestion(false);
     }
     const filterChangeHandler = (e) => {
         setTagsFilter(e.target.value);
@@ -55,17 +67,26 @@ function QuestionsManager() {
 
     return (
         <div className='page'>
+            {console.log(questionShow)}
+            {showQuestion && <Modal title="question"
+                content={
+                    <Question
+                        content={questionShow.questionContent}
+                        extraContent={questionShow.extraContent}
+                        answers={questionShow.answers}
+                        isHorizontal={questionShow.isHorizontal}
+                        isMultiChoice={questionShow.isMultichoice}
+                    />
+                }
+                onConfirm={closeModal} />}
             <h3>Available questions for</h3>
             <div className='filter'>
                 <div>Filter by tags or content</div>
                 <input value={tagsFilter} onChange={filterChangeHandler}></input>
             </div>
-            <DataTable list={list} colNames={colNames} editClick={handleEditClick} />
+            <DataTable list={list} colNames={colNames} editClick={handleEditClick} showClick={handleShowClick} />
             <button className='btn' onClick={handleClick}>ADD NEW QUESTION</button>
         </div>
-
-
-
 
     )
 }

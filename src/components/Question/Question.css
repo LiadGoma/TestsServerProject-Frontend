@@ -6,6 +6,17 @@
     font-size: 1rem;
 
 }
+.answersShow{
+    display: flex;
+    flex-direction: column;
+}
+.horizontal{
+    flex-direction: row;
+    gap: 1rem;
+}
+.vertical{
+    flex-direction: column;
+}
 
 .choiceContent p{
 margin: 0;

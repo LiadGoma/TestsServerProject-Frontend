@@ -3,6 +3,18 @@
     background-color: black;
     color: white;
     cursor: pointer;
-    padding: 1rem;
+    padding: 0.5rem;
     margin: 1rem;
+    font-size: 0.8rem;
+}
+.tagsRow{
+    display: flex;
+    font-size: 0.7rem;
+    gap: 0.3rem;
+    justify-content: center;
+    margin-top: 1rem;
+    color: rgb(26, 155, 155);
+}
+.buttonsTable{
+    display: flex;
 }

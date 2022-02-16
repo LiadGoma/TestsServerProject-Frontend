@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import QuestionForm from '../../components/QuestionForm/QuestionForm';
-import { getQuestionById } from "../../services/questionsService";
+import { getQuestionById, updateQuestion } from "../../services/questionsService";
 
 function EditQuestion() {
     const [editQuestion, setEditQuestion] = useState(null);
-    
+
     useEffect(() => {
         const getQuestion = async () => {
             const id = localStorage.getItem("editQuestion");
-
             localStorage.clear();
             if (id) {
                 const { data } = await getQuestionById(id);
-                console.log(data);
-                setEditQuestion(null);
                 setEditQuestion(data);
             }
         }
         getQuestion();
 
     }, []);
+    const editQuestionHandler =async (newQuestion, id) => {
+        const { data } = await updateQuestion(newQuestion, id);
+        console.log(data);
+        window.location="/questionsManager";
+    }
     return (
         <div>
-            <QuestionForm edit={editQuestion} />
+            <QuestionForm edit={editQuestion} editQuestion={editQuestionHandler} />
         </div>
     )
 }
