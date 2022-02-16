@@ -6,7 +6,6 @@ table{
     overflow: hidden;
 }
 thead{
-    position: sticky;
     z-index: 100;
     background-color: crimson;
 }

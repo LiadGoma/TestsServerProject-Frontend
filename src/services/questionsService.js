@@ -9,6 +9,10 @@ export async function createNewQuestion(question) {
     return await axios.post(url, question);
 }
 export async function getQuestionById(id) {
-    const data = await axios.get(url+`/${id}`);
+    const data = await axios.get(url + `/${id}`);
+    return data;
+}
+export async function updateQuestion(newQuestion, id) {
+    const data = await axios.put(url + `/${id}`, newQuestion);
     return data;
 }

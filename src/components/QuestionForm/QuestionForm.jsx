@@ -5,12 +5,12 @@ import { createNewQuestion, getQuestionById } from "../../services/questionsServ
 import { validateQuestion } from '../../services/validator';
 import "./QuestionForm.css";
 import Modal from '../Modal/Modal';
-import  Question  from '../Question/Question';
+import Question from '../Question/Question';
 
 
-function QuestionForm({ edit }) {
+function QuestionForm({ edit, editQuestion }) {
     const [isMultiChoice, setIsMultiChoice] = useState(false);
-    const [isHorizontal, setIsHorizontal] = useState(true);
+    const [isHorizontal, setIsHorizontal] = useState(false);
     const [questionText, setQuestionText] = useState("");
     const [extraContent, setExtraContent] = useState("");
     const [answers, setAnswers] = useState([]);
@@ -20,9 +20,17 @@ function QuestionForm({ edit }) {
     const [showQuestion, setShowQuestion] = useState(false);
 
     useEffect(() => {
-        console.log(edit);
+        if (edit) {
+            console.log(edit.isHorizontal);
+            setIsMultiChoice(edit.isMultichoice);
+            setQuestionText(edit.questionContent);
+            setExtraContent(edit.extraContent);
+            setIsHorizontal(edit.isHorizontal);
+            setAnswers(edit.answers);
+            setTags(edit.tags);
+        }
 
-    }, [])
+    }, [edit])
 
     useEffect(() => {
         const tempAnswers = [
@@ -79,11 +87,11 @@ function QuestionForm({ edit }) {
         setShowQuestion(true);
     }
     const handleSaveClick = () => {
-        // console.log(isMultiChoice);
+         console.log(isMultiChoice);
         // console.log(isHorizontal);
         // console.log(questionText);
         // console.log(extraContent);
-         console.log(answers);
+        //console.log(answers);
         // console.log(tags);
         const validateErrors = validateQuestion({
             isHorizontal,
@@ -95,18 +103,22 @@ function QuestionForm({ edit }) {
         });
         setErrors(validateErrors);
         if (Object.values(validateErrors).length > 0) setIsErrors(true);
-        if (!validateErrors) {
-            // const newQuestion = {
-            //     field: "aaa",
-            //     isMultichoice: isMultiChoice,
-            //     isHorizontal,
-            //     questionContent: questionText,
-            //     extraContent,
-            //     answers,
-            //     tags
-            // }
-            // createNewQuestion(newQuestion);
-            // window.location = "/questionsManager";
+        const newQuestion = {
+            field: "aaa",
+            isMultichoice: isMultiChoice,
+            isHorizontal,
+            questionContent: questionText,
+            extraContent,
+            answers,
+            tags
+        }
+        if(edit){
+            editQuestion(newQuestion, edit._id)
+            return;
+        }
+         if (Object.values(validateErrors).length < 1) {
+              createNewQuestion(newQuestion);
+              window.location = "/questionsManager";
         }
 
     }
@@ -126,26 +138,27 @@ function QuestionForm({ edit }) {
                 onConfirm={closeModal} />}
             <div className='form'>
                 <div className='field'>
-                    <label >Question Type</label>
-                    <select onChange={selectQuestionTypeChangeHandler}>
+                    <label>Question Type</label>
+                    <select value={isMultiChoice} onChange={selectQuestionTypeChangeHandler}>
                         <option value={false} >Single Choice Question</option>
                         <option value={true}>Multi Choice Question</option>
                     </select>
                 </div>
                 <div className="field">
                     <label className={errors.questionText ? "error" : ""}>Question Text</label>
-                    <TextEditor height={200} changeHandler={questionContentChangeHandler} />
+                    <TextEditor height={200} initValue={questionText} changeHandler={questionContentChangeHandler} />
                 </div>
                 <div className='field'>
                     <label>Text Below Question</label>
-                    <TextEditor height={200} changeHandler={extraContentChangeHandler} />
+                    <TextEditor height={200} initValue = {extraContent} changeHandler={extraContentChangeHandler} />
                 </div>
 
                 <div className={`field ${errors.answers ? "error" : ""}`}>
                     <label>Possible Answers</label>
                     <div className='answers'>
                         {answers.map((answer, index) => {
-                            return <Answer key={index} deleteHandler={deleteBtnHandler} isMultiChoice={isMultiChoice} changeAnswer={changeAnswer} id={answer.id} />
+                            return <Answer key={index} deleteHandler={deleteBtnHandler} isMultiChoice={answer.isMultiChoice} initIsCorrect={answer.isCorrect} 
+                                        initContent={answer.content} changeAnswer={changeAnswer} id={answer.id}/>
                         })}
                         <button className='answerBtn' onClick={addAnswerClickHandler}>ADD AN ANSWER</button>
                     </div>
@@ -154,14 +167,14 @@ function QuestionForm({ edit }) {
 
                 <div className='field'>
                     <label>Answers Layout</label>
-                    <input type="radio" onChange={selectIsHorizontalChangeHandler} defaultChecked={true} name="layout" value={true} id="horizontal" />
+                    <input type="radio" onChange={selectIsHorizontalChangeHandler} defaultChecked={isHorizontal} name="layout" value={true} id="horizontal" />
                     <label htmlFor="horizontal">Horizontal</label>
-                    <input type="radio" onChange={selectIsHorizontalChangeHandler} name="layout" value={false} id="vertical" />
+                    <input type="radio" onChange={selectIsHorizontalChangeHandler} defaultChecked={!isHorizontal} name="layout" value={false} id="vertical" />
                     <label htmlFor="vertical">Vertical</label>
                 </div>
                 <div className={`field ${errors.tags ? "error" : ""}`}>
                     <label>Tags</label>
-                    <input onChange={tagsChangeHandler}></input>
+                    <input onChange={tagsChangeHandler} value={tags}></input>
                 </div>
                 <div className='bottomBtns'>
                     <button className='formBtn' onClick={showQuestionHandler}>SHOW</button>

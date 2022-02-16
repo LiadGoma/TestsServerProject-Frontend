@@ -11,7 +11,7 @@ function MainPage() {
     return (
         <div className='mainPage'>
             <SideBar />
-            <div></div>
+            <div className='sideBarDiv'></div>
             <div className='content'>
                 <Routes>
                     <Route path="/questionsManager" element={<QuestionsManager />} />

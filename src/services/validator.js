@@ -5,7 +5,9 @@ const validateQuestion = (question) => {
         errors.questionText = "Question text should be more than 5 characters \n";
     }
     console.log(question.answers)
-    if (!question.isMultichoice) {
+    console.log(question.isMultiChoice)
+    if (!question.isMultiChoice) {
+        console.log("in");
         let counter = 0;
         for (let index = 0; index < question.answers.length; index++) {
             if (question.answers[index].isCorrect === true) counter++;
