@@ -8,14 +8,15 @@ function DataTable({ list, colNames , editClick, showClick, deleteClick}) {
             <table>
                 <thead>
                     <tr>
-                        {colNames.map((colName, index) => {
+                        {colNames?.map((colName, index) => {
                             return <th key={index}>{colName.toUpperCase()}</th>
                         })}
                     </tr>
                 </thead>
                 <tbody>
-                    {list.map((obj, index2) => {
-                        return <DataTableRow key={index2} obj={obj} showClick={showClick} editClick={editClick} deleteClick={deleteClick} />
+                    {list?.map((obj, index2) => {
+                        return <DataTableRow key={index2} obj={obj} showClick={showClick} 
+                        editClick={editClick} deleteClick={deleteClick}/>
                     })}
                 </tbody>
 

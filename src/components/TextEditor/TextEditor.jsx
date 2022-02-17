@@ -5,7 +5,8 @@ function TextEditor({ height, changeHandler, initValue }) {
   const editorRef = useRef(null);
 
   const handleChange = (e) => {
-    changeHandler(editorRef.current.getContent());
+    const text=editorRef.current.getContent();
+    changeHandler(text);
   }
   return (
     <>

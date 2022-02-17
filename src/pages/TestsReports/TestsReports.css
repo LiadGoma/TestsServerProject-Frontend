@@ -1,0 +1,26 @@
+.reportSearch{
+    display: flex;
+    flex-direction: column;
+}
+.fieldSearch{
+    display: flex;
+    gap:1rem;
+}
+.reportBtn{
+    align-self: flex-end;
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: black;
+    color: white;
+    border: 0;
+    cursor: pointer;
+}
+.searchBox{
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    background-color: rgb(196, 190, 190);
+    max-width: 90%;
+    gap: 2rem;
+    border-radius: 8px;
+}

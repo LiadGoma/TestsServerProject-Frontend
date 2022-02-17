@@ -21,7 +21,6 @@ function QuestionForm({ edit, editQuestion }) {
 
     useEffect(() => {
         if (edit) {
-            console.log(edit.isHorizontal);
             setIsMultiChoice(edit.isMultichoice);
             setQuestionText(edit.questionContent);
             setExtraContent(edit.extraContent);
@@ -47,7 +46,6 @@ function QuestionForm({ edit, editQuestion }) {
         setIsMultiChoice(e.target.value);
     }
     const selectIsHorizontalChangeHandler = (e) => {
-        console.log(e.target.value);
         setIsHorizontal(e.target.value);
     }
     const tagsChangeHandler = (e) => {
@@ -68,11 +66,9 @@ function QuestionForm({ edit, editQuestion }) {
         setAnswers(tempAnswers);
     }
     const changeAnswer = (id, content, isCorrect) => {
-        console.log(content + "----")
         const tempAnswers = [...answers];
         tempAnswers[id].content = content;
         tempAnswers[id].isCorrect = isCorrect;
-        console.log(tempAnswers);
         setAnswers(tempAnswers);
     }
     const deleteBtnHandler = (id) => {
@@ -87,7 +83,7 @@ function QuestionForm({ edit, editQuestion }) {
         setShowQuestion(true);
     }
     const handleSaveClick = () => {
-         console.log(isMultiChoice);
+         //console.log(isMultiChoice);
         // console.log(isHorizontal);
         // console.log(questionText);
         // console.log(extraContent);
