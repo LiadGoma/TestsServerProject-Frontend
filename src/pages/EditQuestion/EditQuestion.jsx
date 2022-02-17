@@ -19,7 +19,6 @@ function EditQuestion() {
     }, []);
     const editQuestionHandler =async (newQuestion, id) => {
         const { data } = await updateQuestion(newQuestion, id);
-        console.log(data);
         window.location="/questionsManager";
     }
     return (

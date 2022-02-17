@@ -9,10 +9,10 @@ function DataTableRow({ obj, editClick, showClick, deleteClick }) {
     const clickHandler = () => {
         editClick(id);
     }
-    const showClickHandler=()=>{
+    const showClickHandler = () => {
         showClick(id);
     }
-    const deleteClickHandler = ()=>{
+    const deleteClickHandler = () => {
         deleteClick(id);
     }
     return (
@@ -23,10 +23,10 @@ function DataTableRow({ obj, editClick, showClick, deleteClick }) {
                         <div>{value[0]}</div>
                         <div className='tagsRow'>
                             {value.map((tag, index) => {
-                                if (index > 0 &&index <value.length-1){
+                                if (index > 0 && index < value.length - 1) {
                                     return <div key={index}>{`${tag} |`}</div>
                                 }
-                                if(index===value.length-1){
+                                if (index === value.length - 1) {
                                     return <div key={index}>{tag}</div>
                                 }
                             })}
@@ -37,11 +37,11 @@ function DataTableRow({ obj, editClick, showClick, deleteClick }) {
             })}
             <td>
                 <div className='buttonsTable'>
-                <button className='editBtn' onClick={clickHandler}>EDIT</button>
-                <button className='editBtn' onClick={showClickHandler}>SHOW</button>
-                <button className='editBtn' onClick={deleteClickHandler}>DELETE</button>
+                    {editClick && <button className='editBtn' onClick={clickHandler}>EDIT</button>}
+                    {showClick && <button className='editBtn' onClick={showClickHandler}>SHOW</button>}
+                    {deleteClick && <button className='editBtn' onClick={deleteClickHandler}>DELETE</button>}
                 </div>
-           
+
             </td>
         </tr>
 

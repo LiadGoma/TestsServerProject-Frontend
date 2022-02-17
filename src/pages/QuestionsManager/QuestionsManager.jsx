@@ -24,7 +24,8 @@ function QuestionsManager() {
             setFilteredQuestions(data);
         }
         setQuestionsData();
-    }, [questions]);
+    }, []);
+
     useEffect(() => {
         let index = 0;
         const tempList = filteredQuestions?.map((question) => {
@@ -59,15 +60,13 @@ function QuestionsManager() {
         const {data} = await deleteQuestion(id);
         const tempList = await getAllQuestions();
         setQuestions(tempList.data);
+        setFilteredQuestions(tempList.data)
         return data;
     }
     const closeModal = () => {
         setIsQuestionModalShow(false);
     }
-    // const deleteQuestionHandler = () => {
-    //     const changedList = questions.getAllQuestions
-    //     setDeleted(changedList);
-    // }
+
     const filterChangeHandler = (e) => {
         setTagsFilter(e.target.value);
         const filtered = questions.filter((question) => question.tags.filter((tag) => tag.includes(e.target.value)).length > 0);
@@ -77,7 +76,6 @@ function QuestionsManager() {
 
     return (
         <div className='page'>
-            {/* {console.log(questionShow)} */}
             {isQuestionModalShow && <Modal title="question"
                 content={
                     <Question

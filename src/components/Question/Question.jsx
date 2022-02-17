@@ -7,10 +7,9 @@ function Question({ content, extraContent, answers, isHorizontal, isMultiChoice 
         <div>
             <div className='question'>{ReactHtmlParser(content)}</div>
             <div className='extra'>{ReactHtmlParser(extraContent)}</div>
-            {console.log(isHorizontal)}
             <div className={`answersShow ${isHorizontal? "horizontal" : "vertical"}`}>
-                {answers.map((answer) => {
-                    return <div key={answer._id} className='choice'>
+                {answers.map((answer,index) => {
+                    return <div key={index} className='choice'>
                         <input type="checkbox" ></input>
                         <div className='choiceContent'>{ReactHtmlParser(answer.content)}</div>
                     </div>

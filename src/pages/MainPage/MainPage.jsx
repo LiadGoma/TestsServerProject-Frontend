@@ -6,6 +6,9 @@ import QuestionsManager from '../QuestionsManager/QuestionsManager';
 import TestsManager from '../TestsManager/TestsManager';
 import AddNewQuestion from '../AddNewQuestion/AddNewQuestion';
 import EditQuestion from '../EditQuestion/EditQuestion';
+import AddNewTest from '../AddNewTest/AddNewTest';
+import TestsReports from '../TestsReports/TestsReports';
+import RespondentsReports from '../RespondentsReports/RespondentsReports';
 
 function MainPage() {
     return (
@@ -17,7 +20,10 @@ function MainPage() {
                     <Route path="/questionsManager" element={<QuestionsManager />} />
                     <Route path="/testsManager" element={<TestsManager />} />
                     <Route path="/addNewQuestion" element={<AddNewQuestion />} />
+                    <Route path="/addNewTest" element={<AddNewTest />} />
                     <Route path="/editQuestion" element={<EditQuestion />} />
+                    <Route path="/testsReports" element={<TestsReports />} />
+                    <Route path="/respondentsReports" element={<RespondentsReports />} />
                 </Routes>
             </div>
         </div>

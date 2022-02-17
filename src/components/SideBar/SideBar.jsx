@@ -6,10 +6,9 @@ function SideBar() {
     return (
         <div className='sidebar'>
             <NavLink className="navlink" to="/questionsManager">Manage Questions</NavLink>
-            <NavLink className="navlink" to="testsManager">Manage Tests</NavLink>
-            <NavLink className="navlink" to="">Reports</NavLink>
-            <NavLink className="navlink" to="">fas</NavLink>
-            <NavLink className="navlink" to="">fassa</NavLink>
+            <NavLink className="navlink" to="/testsManager">Manage Tests</NavLink>
+            <NavLink className="navlink" to="/testsReports">Tests Reports</NavLink>
+            <NavLink className="navlink" to="/respondentsReports">Respondents Reports</NavLink>
         </div>
     )
 }

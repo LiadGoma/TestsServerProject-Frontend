@@ -1,0 +1,30 @@
+.summaryTest{
+   display: flex;
+   flex-direction: column;
+   gap: 1rem; 
+   flex-wrap: wrap;
+   height: 30vh;
+   margin-bottom: 3rem;
+}
+.respondentsGradesAndAnswers{
+    margin-bottom: 3rem;
+}
+.questionStatsField{
+    display: flex;
+    gap: 1rem;
+
+}
+.QuestionStatsButtonDiv{
+    display: flex;
+    gap: 1rem;
+}
+.questionStats{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.reportBtnDiv{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
