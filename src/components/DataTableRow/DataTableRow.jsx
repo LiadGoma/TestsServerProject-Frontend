@@ -1,6 +1,6 @@
 import React from 'react'
 import "./DataTableRow.css";
-function DataTableRow({ obj, editClick, showClick }) {
+function DataTableRow({ obj, editClick, showClick, deleteClick }) {
 
     let values = Object.values(obj);
     const id = values[0];
@@ -11,6 +11,9 @@ function DataTableRow({ obj, editClick, showClick }) {
     }
     const showClickHandler=()=>{
         showClick(id);
+    }
+    const deleteClickHandler = ()=>{
+        deleteClick(id);
     }
     return (
         <tr>
@@ -36,6 +39,7 @@ function DataTableRow({ obj, editClick, showClick }) {
                 <div className='buttonsTable'>
                 <button className='editBtn' onClick={clickHandler}>EDIT</button>
                 <button className='editBtn' onClick={showClickHandler}>SHOW</button>
+                <button className='editBtn' onClick={deleteClickHandler}>DELETE</button>
                 </div>
            
             </td>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./QuestionsManager.css";
-import { getAllQuestions, getQuestionById } from "../../services/questionsService"
+import { getAllQuestions, getQuestionById, deleteQuestion } from "../../services/questionsService"
 import DataTable from '../../components/DataTable/DataTable';
 import ReactHtmlParser from 'react-html-parser';
 import Modal from '../../components/Modal/Modal';
@@ -11,7 +11,7 @@ function QuestionsManager() {
     const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [list, setList] = useState([]);
     const [tagsFilter, setTagsFilter] = useState("");
-    const [showQuestion, setShowQuestion] = useState(false);
+    const [isQuestionModalShow, setIsQuestionModalShow] = useState(false);
     const [questionShow, setQuestionShow] = useState({});
 
     const colNames = ["Id", "Question text and tags", "Last Update", "Question type", "Field", ""];
@@ -24,7 +24,7 @@ function QuestionsManager() {
             setFilteredQuestions(data);
         }
         setQuestionsData();
-    }, []);
+    }, [questions]);
     useEffect(() => {
         let index = 0;
         const tempList = filteredQuestions?.map((question) => {
@@ -53,11 +53,21 @@ function QuestionsManager() {
     const handleShowClick = async (id) => {
         const {data} = await getQuestionById(id);
         setQuestionShow(data);
-        setShowQuestion(true);
+        setIsQuestionModalShow(true);
+    }
+    const handleDeleteClick = async (id) =>{
+        const {data} = await deleteQuestion(id);
+        const tempList = await getAllQuestions();
+        setQuestions(tempList.data);
+        return data;
     }
     const closeModal = () => {
-        setShowQuestion(false);
+        setIsQuestionModalShow(false);
     }
+    // const deleteQuestionHandler = () => {
+    //     const changedList = questions.getAllQuestions
+    //     setDeleted(changedList);
+    // }
     const filterChangeHandler = (e) => {
         setTagsFilter(e.target.value);
         const filtered = questions.filter((question) => question.tags.filter((tag) => tag.includes(e.target.value)).length > 0);
@@ -67,8 +77,8 @@ function QuestionsManager() {
 
     return (
         <div className='page'>
-            {console.log(questionShow)}
-            {showQuestion && <Modal title="question"
+            {/* {console.log(questionShow)} */}
+            {isQuestionModalShow && <Modal title="question"
                 content={
                     <Question
                         content={questionShow.questionContent}
@@ -84,7 +94,7 @@ function QuestionsManager() {
                 <div>Filter by tags or content</div>
                 <input value={tagsFilter} onChange={filterChangeHandler}></input>
             </div>
-            <DataTable list={list} colNames={colNames} editClick={handleEditClick} showClick={handleShowClick} />
+            <DataTable list={list} colNames={colNames} editClick={handleEditClick} showClick={handleShowClick} deleteClick={handleDeleteClick}/>
             <button className='btn' onClick={handleClick}>ADD NEW QUESTION</button>
         </div>
 

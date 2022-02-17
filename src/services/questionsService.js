@@ -16,3 +16,7 @@ export async function updateQuestion(newQuestion, id) {
     const data = await axios.put(url + `/${id}`, newQuestion);
     return data;
 }
+export async function deleteQuestion(id){
+    const data = await axios.delete(url + `/${id}`);
+    return data;
+}
