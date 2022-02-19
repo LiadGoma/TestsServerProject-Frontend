@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react';
 import "./DataTableRow.css";
-function DataTableRow({ obj, editClick, showClick, deleteClick }) {
+function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect }) {
+
+    const [selected, setSelected] = useState(false);
 
     let values = Object.values(obj);
     const id = values[0];
@@ -15,8 +17,14 @@ function DataTableRow({ obj, editClick, showClick, deleteClick }) {
     const deleteClickHandler = () => {
         deleteClick(id);
     }
+    const selectHandler = () => {
+        if(onSelect){
+            setSelected(!selected);
+            onSelect(obj);
+        }
+    }
     return (
-        <tr>
+        <tr onClick={selectHandler} className={selected?"selected":""}>
             {values?.map((value, index2) => {
                 if (Array.isArray(value)) {
                     return <td key={index2}>
