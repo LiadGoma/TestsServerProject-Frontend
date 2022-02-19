@@ -1,0 +1,8 @@
+.smallHeaders{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.reportByRespondent{
+    margin-top: 3rem;
+}

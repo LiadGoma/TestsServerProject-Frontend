@@ -9,8 +9,12 @@ function TestsReports() {
     const [tests, setTests] = useState([]);
     const [showReport, setShowReport] = useState(false);
     const [chosenTest, setChosenTest] = useState();
+    const [fromDate, setFromDate] = useState();
+    const [toDate, setToDate] = useState();
 
     useEffect(() => {
+        setFromDate("2017-05-24");
+        setToDate("2022-19-02");
         const getTestsData = async () => {
             const { data } = await getAllTests();
             setTests(data);
@@ -23,7 +27,14 @@ function TestsReports() {
         setShowReport(true);
     }
     const testChangeHandler = (e) => {
-        console.log(e.target.value);
+        const tempTest = tests.filter((test) => test._id === e.target.value);
+        setChosenTest(tempTest[0]);
+    }
+    const toDateChangeHandler = (e) => {
+        setToDate(e.target.value);
+    }
+    const fromDateChangeHandler = (e) => {
+        setFromDate(e.target.value);
     }
     return (
         <div className='reportSearch'>
@@ -33,7 +44,7 @@ function TestsReports() {
                     <label>Select Test:</label>
                     <select onChange={testChangeHandler}>
                         {tests.map((test) => {
-                            return <option key={test._id} >{test.testName}</option>
+                            return <option key={test._id} value={test._id}>{test.testName}</option>
                         })}
                     </select>
                 </div>
@@ -43,6 +54,7 @@ function TestsReports() {
                         id="date"
                         label="from"
                         type="date"
+                        onChange={fromDateChangeHandler}
                         defaultValue="2017-05-24"
                         InputLabelProps={{
                             shrink: true,
@@ -52,6 +64,7 @@ function TestsReports() {
                         id="date"
                         label="to"
                         type="date"
+                        onChange={toDateChangeHandler}
                         defaultValue={Date.now}
                         InputLabelProps={{
                             shrink: true,
@@ -60,7 +73,7 @@ function TestsReports() {
                 </div>
                 <button onClick={generateReportClickHandler} className="reportBtn">Generate Report</button>
             </div>
-            {showReport && <ReportByTest test={chosenTest} />}
+            {showReport && <ReportByTest test={chosenTest} fromDate={fromDate} toDate={toDate} />}
         </div>
     )
 }
