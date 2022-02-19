@@ -1,22 +1,25 @@
 import React from 'react'
 import DataTable from '../DataTable/DataTable';
 import "./ReportByTest.css";
-function ReportByTest({ test }) {
+function ReportByTest({ test, fromDate, toDate }) {
     return (
-        <div>
-            <h2>{`Test Report : ${test.testName}`}</h2>
+        <div className='testReport'>
+            {console.log(test)}
+            {console.log(fromDate)}
+            {console.log(toDate)}
+            <h2>Test Report :  {<span className='coloredWord'>{test.testName}</span>}</h2>
+            <h3>Summary</h3>
 
             <div className='summaryTest'>
-                <h3>Summary</h3>
-                <div>{`Test Name: ${test?.testName}`}</div>
-                <div>{`Test Id: ${test?.id}`}</div>
-                <div>{`Num Of Questions: ${test?.answers?.length}`}</div>
-                <div>{`Passing Grade: ${test?.passingGrade}`}</div>
-                <div>{`Date Range: ${"the daate"}`}</div>
-                <div>{`Number Of Submmisions: ${"num of subimissions"}`}</div>
-                <div>{`Number Of Respondents Passed: ${""}`}</div>
-                <div>{`Passing Precentage: ${""}`}</div>
-                <div>{`Avarage Grade: ${""}`}</div>
+                <div>Test Name: {<span className='boldWord'>{test.testName}</span>}</div>
+                <div>Test Id: {<span className='boldWord'>{test?._id}</span>}</div>
+                <div>Num Of Questions: {<span className='boldWord'>{test?.questions?.length}</span>}</div>
+                <div>Passing Grade: {<span className='boldWord'>{test?.passingGrade}</span>}</div>
+                <div>Date Range: {<span className='boldWord'>{fromDate} - {toDate}</span>}</div>
+                <div>Number Of Submmisions: {<span className='boldWord'>{"num of subimissions"}</span>}</div>
+                <div>Number Of Respondents Passed: {<span className='boldWord'>{""}</span>}</div>
+                <div>Passing Precentage: {<span className='boldWord'>{""}</span>}</div>
+                <div>Avarage Grade: {<span className='boldWord'>{""}</span>}</div>
             </div>
 
 
@@ -35,13 +38,13 @@ function ReportByTest({ test }) {
                     <input></input>
                 </div>
                 <div className='QuestionStatsButtonDiv'>
-                    <button>Show answer statistics of all questions</button>
-                    <button>Show detailed report of al answers</button>
+                    <button className="reportBtn">Show answer statistics of all questions</button>
+                    <button className="reportBtn">Show detailed report of al answers</button>
                 </div>
                 <DataTable/>
                 <div className='reportBtnDiv'>
-                    <button>BACK</button>
-                    <button>PRINT</button>
+                    <button className="reportBtn">BACK</button>
+                    <button className="reportBtn">PRINT</button>
                 </div>
 
             </div>

@@ -23,6 +23,7 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect }) {
             onSelect(obj);
         }
     }
+   
     return (
         <tr onClick={selectHandler} className={selected?"selected":""}>
             {values?.map((value, index2) => {
@@ -43,14 +44,14 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect }) {
                 }
                 return <td key={index2}>{value}</td>
             })}
-            <td>
+            { editClick||showClick||deleteClick &&<td>
                 <div className='buttonsTable'>
                     {editClick && <button className='editBtn' onClick={clickHandler}>EDIT</button>}
                     {showClick && <button className='editBtn' onClick={showClickHandler}>SHOW</button>}
                     {deleteClick && <button className='editBtn' onClick={deleteClickHandler}>DELETE</button>}
                 </div>
 
-            </td>
+            </td>}
         </tr>
 
     )

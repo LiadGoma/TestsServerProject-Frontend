@@ -3,7 +3,6 @@ import DataTableRow from '../DataTableRow/DataTableRow';
 import "./DataTable.css";
 
 function DataTable({ list, colNames , editClick, showClick, deleteClick, onSelect}) {
-    console.log(list);
     return (
         <div className='tableContainer'>
             <table>

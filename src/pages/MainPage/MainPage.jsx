@@ -9,6 +9,7 @@ import EditQuestion from '../EditQuestion/EditQuestion';
 import AddNewTest from '../AddNewTest/AddNewTest';
 import TestsReports from '../TestsReports/TestsReports';
 import RespondentsReports from '../RespondentsReports/RespondentsReports';
+import ReportByRespondentAndTest from '../../components/ReportByRespondentAndTest/ReportByRespondentAndTest';
 
 function MainPage() {
     return (
@@ -24,6 +25,7 @@ function MainPage() {
                     <Route path="/editQuestion" element={<EditQuestion />} />
                     <Route path="/testsReports" element={<TestsReports />} />
                     <Route path="/respondentsReports" element={<RespondentsReports />} />
+                    <Route path="/AnsweredTestReport" element={<ReportByRespondentAndTest />} />
                 </Routes>
             </div>
         </div>
