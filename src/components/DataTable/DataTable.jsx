@@ -2,7 +2,7 @@ import React from 'react'
 import DataTableRow from '../DataTableRow/DataTableRow';
 import "./DataTable.css";
 
-function DataTable({ list, colNames , editClick, showClick, deleteClick, onSelect}) {
+function DataTable({ list, colNames , editClick, showClick, deleteClick, onSelect, copyLink}) {
     return (
         <div className='tableContainer'>
             <table>
@@ -16,7 +16,7 @@ function DataTable({ list, colNames , editClick, showClick, deleteClick, onSelec
                 <tbody>
                     {list?.map((obj, index2) => {
                         return <DataTableRow key={index2} obj={obj} showClick={showClick} 
-                        editClick={editClick} deleteClick={deleteClick} onSelect={onSelect} />
+                        editClick={editClick} deleteClick={deleteClick} onSelect={onSelect} copyLink={copyLink} />
                     })}
                 </tbody>
 

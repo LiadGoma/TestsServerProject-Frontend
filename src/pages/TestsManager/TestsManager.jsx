@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import DataTable from '../../components/DataTable/DataTable';
 import { getAllTests } from '../../services/testsService';
 import "./TestsManager.css";
 
 function TestsManager() {
+    const navigate=useNavigate();
     const [tests, setTests] = useState([]);
     const [filteredTests, setFilteredTests] = useState([]);
     const [list, setList] = useState([]);
     const [tagsFilter, setTagsFilter] = useState("");
   
 
-    const colNames = ["Id", "Test Name", "Num of questions", "Last Update", "passing grade", "version", ""];
+    const colNames = ["Id", "Test Name", "# of questions", "Last Update", "passing grade", "version", ""];
 
 
     useEffect(() => {
@@ -34,7 +36,7 @@ function TestsManager() {
                 testName: test.testName,
                 numOfQuestions: test.questions.length,
                 lastUpdated: date,
-                passingGrade: test.PassingGrade,
+                passingGrade: test.passingGrade,
                 version: 1,
             }
         });
@@ -42,8 +44,7 @@ function TestsManager() {
     }, [filteredTests])
 
     const editClickHandler = (id) => {
-        localStorage.setItem("editTest", id);
-        window.location = "/EditTest";
+        navigate(`/EditTest/${id}`);
     }
     const filterChangeHandler = (e) => {
         setTagsFilter(e.target.value);
@@ -51,7 +52,7 @@ function TestsManager() {
         setFilteredTests(filtered);
     }
     const addNewTestClickHandler = () => {
-        window.location = "/AddNewTest";
+        navigate("/AddNewTest");
     }
     return (
         <div className='page'>
@@ -63,6 +64,7 @@ function TestsManager() {
             <DataTable list={list}
                 colNames={colNames}
                 editClick={editClickHandler}
+                copyLink={true}
             />
             <button className='btn' onClick={addNewTestClickHandler}>ADD NEW TEST</button>
 
