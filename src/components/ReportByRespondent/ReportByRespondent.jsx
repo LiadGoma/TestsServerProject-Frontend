@@ -1,14 +1,15 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import DataTable from '../DataTable/DataTable';
 import "./ReportByRespondent.css";
 
 function ReportByRespondent({ respondent }) {
+    const navigate=useNavigate();
 
     const colNames = ["test id", "Test name", "Grade", "Date"];
 
     const testSelectHandler = (value) => {
-        console.log("wwo");
-        window.location = "/answeredTestReport";
+        navigate("/answeredTestReport");
     }
     return (
         <div className='reportByRespondent'>

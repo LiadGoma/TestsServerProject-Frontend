@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import "./DataTableRow.css";
-function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect }) {
+
+function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLink }) {
 
     const [selected, setSelected] = useState(false);
 
@@ -18,14 +20,14 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect }) {
         deleteClick(id);
     }
     const selectHandler = () => {
-        if(onSelect){
+        if (onSelect) {
             setSelected(!selected);
             onSelect(obj);
         }
     }
-   
+
     return (
-        <tr onClick={selectHandler} className={selected?"selected":""}>
+        <tr onClick={selectHandler} className={selected ? "selected" : ""}>
             {values?.map((value, index2) => {
                 if (Array.isArray(value)) {
                     return <td key={index2}>
@@ -44,14 +46,18 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect }) {
                 }
                 return <td key={index2}>{value}</td>
             })}
-            { editClick||showClick||deleteClick &&<td>
+            {editClick != null || showClick != null || deleteClick != null || copyLink === true ? <td>
+
                 <div className='buttonsTable'>
                     {editClick && <button className='editBtn' onClick={clickHandler}>EDIT</button>}
                     {showClick && <button className='editBtn' onClick={showClickHandler}>SHOW</button>}
                     {deleteClick && <button className='editBtn' onClick={deleteClickHandler}>DELETE</button>}
+                    {copyLink && <CopyToClipboard text={`http://localhost:3000/test/${obj.id}`}>
+                        <button className='editBtn'>COPY LINK</button>
+                    </CopyToClipboard>}
                 </div>
 
-            </td>}
+            </td> : ""}
         </tr>
 
     )

@@ -6,9 +6,11 @@ import { validateQuestion } from '../../services/validator';
 import "./QuestionForm.css";
 import Modal from '../Modal/Modal';
 import Question from '../Question/Question';
+import { useNavigate } from 'react-router-dom';
 
 
 function QuestionForm({ edit, editQuestion }) {
+    const navigate=useNavigate();
     const [isMultiChoice, setIsMultiChoice] = useState(false);
     const [isHorizontal, setIsHorizontal] = useState(false);
     const [questionText, setQuestionText] = useState("");
@@ -114,7 +116,7 @@ function QuestionForm({ edit, editQuestion }) {
         }
          if (Object.values(validateErrors).length < 1) {
               createNewQuestion(newQuestion);
-              window.location = "/questionsManager";
+              navigate("/questionsManager");
         }
 
     }

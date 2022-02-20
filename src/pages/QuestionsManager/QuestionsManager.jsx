@@ -5,8 +5,10 @@ import DataTable from '../../components/DataTable/DataTable';
 import ReactHtmlParser from 'react-html-parser';
 import Modal from '../../components/Modal/Modal';
 import Question from '../../components/Question/Question';
+import { useNavigate } from 'react-router-dom';
 
 function QuestionsManager() {
+    const navigate=useNavigate();
     const [questions, setQuestions] = useState([]);
     const [filteredQuestions, setFilteredQuestions] = useState([]);
     const [list, setList] = useState([]);
@@ -45,11 +47,10 @@ function QuestionsManager() {
     }, [filteredQuestions])
 
     const handleClick = () => {
-        window.location = "/addNewQuestion";
+        navigate("/addNewQuestion");
     }
     const handleEditClick = async (id) => {
-        localStorage.setItem("editQuestion", id);
-        window.location = "/editQuestion";
+        navigate(`/editQuestion/${id}`);
     }
     const handleShowClick = async (id) => {
         const {data} = await getQuestionById(id);

@@ -4,9 +4,6 @@ import "./ReportByTest.css";
 function ReportByTest({ test, fromDate, toDate }) {
     return (
         <div className='testReport'>
-            {console.log(test)}
-            {console.log(fromDate)}
-            {console.log(toDate)}
             <h2>Test Report :  {<span className='coloredWord'>{test.testName}</span>}</h2>
             <h3>Summary</h3>
 

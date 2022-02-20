@@ -23,3 +23,6 @@
 .navlink:active{
     opacity: 0.2;
 }
+.active{
+    opacity: 0.3;
+}
