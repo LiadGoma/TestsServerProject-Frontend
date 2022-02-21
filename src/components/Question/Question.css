@@ -21,3 +21,8 @@
 .choiceContent p{
 margin: 0;
 }
+.questionModel{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

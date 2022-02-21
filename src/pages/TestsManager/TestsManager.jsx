@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import DataTable from '../../components/DataTable/DataTable';
 import { getAllTests } from '../../services/testsService';
 import "./TestsManager.css";
+import ReactPaginate from "react-paginate";
+
 
 function TestsManager() {
     const navigate=useNavigate();
@@ -10,9 +12,13 @@ function TestsManager() {
     const [filteredTests, setFilteredTests] = useState([]);
     const [list, setList] = useState([]);
     const [tagsFilter, setTagsFilter] = useState("");
-  
+    const [pageNumber, setPageNumber] = useState(0);
 
     const colNames = ["Id", "Test Name", "# of questions", "Last Update", "passing grade", "version", ""];
+    const testsPerPage = 5;
+    const pageVisited = pageNumber * testsPerPage;
+    const displayTests = list.slice(pageVisited, pageVisited + testsPerPage);
+    const pageCount = Math.ceil(list.length / testsPerPage);
 
 
     useEffect(() => {
@@ -54,6 +60,9 @@ function TestsManager() {
     const addNewTestClickHandler = () => {
         navigate("/AddNewTest");
     }
+    const changePage=({selected})=>{
+        setPageNumber(selected);
+    }
     return (
         <div className='page'>
             <h3>Available Tests for</h3>
@@ -61,7 +70,18 @@ function TestsManager() {
                 <div>Filter by name</div>
                 <input value={tagsFilter} onChange={filterChangeHandler}></input>
             </div>
-            <DataTable list={list}
+            <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={"paginationButtons"}
+            previousLinkClassName={"previousBtn"}
+            nextLinkClassName={"nextBtn"}
+            disabledClassName={"paginationDisabled"}
+            activeClassName={"paginationActive"}
+            />
+            <DataTable list={displayTests}
                 colNames={colNames}
                 editClick={editClickHandler}
                 copyLink={true}
