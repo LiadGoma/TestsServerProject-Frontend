@@ -19,6 +19,8 @@ function TestForm({ edit, editTest }) {
     const [testFailText, setTestFailText] = useState("");
     const [testField, setTestField] = useState("");
     const [selectedQuestions, setSelectedQuestions] = useState([]);
+    const [canShowAnswers, setCanShowAnswers] = useState(false);
+    const [creatorEmail, setCreatorEmail] = useState("");
     const [pageNumber, setPageNumber] = useState(0);
     const [errors, setErrors] = useState({});
     const [isErrors, setIsErrors] = useState(false);
@@ -42,6 +44,8 @@ function TestForm({ edit, editTest }) {
                 setTestField(edit.field);
                 const tempSelectedQuestions = edit.questions.map((question) => { return { id: question._id } });
                 setSelectedQuestions(tempSelectedQuestions);
+                setCanShowAnswers(edit.canShowAnswers);
+                setCreatorEmail(edit.creatorEmail);
             }
         }
         setEditData();
@@ -88,13 +92,19 @@ function TestForm({ edit, editTest }) {
     const closeModal = () => {
         setIsErrors(false);
     }
+    const canShowAnswersChangeHandler = () =>{
+        setCanShowAnswers(!canShowAnswers);
+    }
+    const emailChangeHandler = (e) =>{
+        setCreatorEmail(e.target.value);
+    }
 
     const handleSaveClick =async () => {
         const validateErrors = validateTest({
             testName,
             testField,
             testHeader,
-            //creatorEmail,
+            creatorEmail,
             testPassingGrade,
             testSuccessText,
             testFailText,
@@ -108,7 +118,7 @@ function TestForm({ edit, editTest }) {
             testName: testName,
             field: testField ? testField : "",
             testIntroduction: testHeader,
-            creatorEmail: "lame@lame.co.il",
+            creatorEmail: creatorEmail,
             passingGrade: testPassingGrade,
             canShowAnswers: true,
             certificationURL: "What the actual fuck",
@@ -144,23 +154,28 @@ function TestForm({ edit, editTest }) {
         {isErrors && <Modal title="Errors" content={Object.values(Object.values(errors))} onConfirm={closeModal} />}
 
         <div className="form">
-            <div>
-                <label className={errors.testField ? "error" : ""}>Field of Study:</label>
-                <input onChange={fieldChangeHandler} defaultValue={testField}></input>
-            </div>
             <div className="field">
                 <label className={errors.testName ? "error" : ""}>Test Name:</label>
                 <input onChange={nameChangeHandler} defaultValue={testName}></input>
+            </div>
+            <div className="field">
+                <label className={errors.field ? "error" : ""}>Field of Study:</label>
+                <input onChange={fieldChangeHandler} defaultValue={testField}></input>
             </div>
             <div className="field">
                 <label>Passing Grade:</label>
                 <input type="number" min="55" max="100" onChange={passingGradeChangeHandler} value={testPassingGrade}></input>
             </div>
             <div className='field'>
-                <label>Show Correct Answers After Submission</label>
+                <label>Allow Students to See Correct Answers After Submission</label>
+                <input type="checkbox" onChange={canShowAnswersChangeHandler} checked={canShowAnswers}/>
+            </div>
+            <div className="field">
+                <label className={errors.creatorEmail ? "error" : ""}>Creator EMail:</label>
+                <input onChange={emailChangeHandler} defaultValue={creatorEmail}></input>
             </div>
             <div>
-                <label className={errors.testHeader ? "error" : ""}>Header</label>
+                <label className={errors.testIntroduction ? "error" : ""}>Header</label>
                 <TextEditor height={200} initValue={testHeader} changeHandler={headerContentChangeHandler} />
             </div>
             <div>
@@ -172,7 +187,7 @@ function TestForm({ edit, editTest }) {
                 <TextEditor height={200} initValue={testFailText} changeHandler={failContentChangeHandler} />
             </div>
             <div>
-                <h3 className={`field ${errors.questions ? "error" : ""}`}>Select the question you want to include in the test</h3>
+                <h3 className={`field ${errors.selectedQuestions ? "error" : ""}`}>Select the question you want to include in the test</h3>
                 <div className="questions">
                     <ReactPaginate
                         previousLabel={"Previous"}
