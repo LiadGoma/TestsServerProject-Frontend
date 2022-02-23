@@ -12,12 +12,14 @@ import RespondentsReports from '../RespondentsReports/RespondentsReports';
 import ReportByRespondentAndTest from '../../components/ReportByRespondentAndTest/ReportByRespondentAndTest';
 import EditTest from '../EditTest/EditTest';
 import TestPage from '../TestPage/TestPage';
+import RespondentLogin from '../RespondentLogin/RespondentLogin';
 
 function MainPage() {
     return (
         <>
             <Routes>
                 <Route path="/test/:testId" element={<TestPage />} />
+                <Route path="/test/login" element={<RespondentLogin />} />
                 <Route path="/*" element={
                     <div className='mainPage'>
                         <SideBar />

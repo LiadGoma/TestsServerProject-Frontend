@@ -11,7 +11,7 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
     values = values.filter((value) => value != id);
 
     useEffect(() => {
-        if(obj?.selected)setSelected(obj.selected);
+        if (obj?.selected) setSelected(obj.selected);
     }, [obj])
 
     const clickHandler = () => {
@@ -48,7 +48,9 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
                         </div>
                     </td>
                 }
-                return <td key={index2}>{value}</td>
+                if (value != null) {
+                    return <td key={index2}>{value}</td>
+                }
             })}
             {editClick != null || showClick != null || deleteClick != null || copyLink === true ? <td>
 

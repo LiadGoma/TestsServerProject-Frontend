@@ -12,3 +12,8 @@ export async function getRespondnetById(id) {
     const data = await axios.get(url + `/${id}`);
     return data;
 }
+export async function updateRespondent(newRespondent, id) {
+    const data = await axios.put(`${url}/${id}`, newRespondent);
+    return data;
+}
+
