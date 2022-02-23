@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DataTable from '../../components/DataTable/DataTable'
 import ReportByRespondent from '../../components/ReportByRespondent/ReportByRespondent';
 import ReportByRespondentAndTest from '../../components/ReportByRespondentAndTest/ReportByRespondentAndTest';
-import { getAllRespondents } from '../../services/respondentsService';
+import { getAllRespondents, getRespondnetById } from '../../services/respondentsService';
 import "./RespondentsReports.css"
 function RespondentsReports() {
   const [respondents, setRespondents] = useState([]);
@@ -17,7 +17,6 @@ function RespondentsReports() {
   useEffect(() => {
     const setRespondentsData = async () => {
       const { data } = await getAllRespondents();
-      console.log(data);
       setRespondents(data);
       setFilteredRespondents(data);
     }
@@ -39,13 +38,13 @@ function RespondentsReports() {
   }, [filteredRespondents])
 
   const filterChangeHandler = (e) => {
-    console.log(e.target.value);
     setNameFilter(e.target.value);
     const filtered = respondents.filter((respondent) => respondent.name.includes(e.target.value));
     setFilteredRespondents(filtered);
   }
-  const onSelectHandler = (value) => {
-    setChosenRespondent(value);
+  const onSelectHandler = async (value) => {
+    const { data } = await getRespondnetById(value.id);
+    setChosenRespondent(data);
     setShowActivityReport(true);
   }
 

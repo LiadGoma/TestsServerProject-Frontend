@@ -15,7 +15,6 @@ function Question({ content, extraContent, answers, isHorizontal, isMultiChoice,
             <div className='extra'>{ReactHtmlParser(extraContent)}</div>
             <div className={`answersShow ${isHorizontal ? "horizontal" : "vertical"}`}>
                 {answers.map((answer, index) => {
-                    console.log(answer)
                     return <div key={answer._id} className='choice'>
                         <input type={isMultiChoice ? "checkbox" : "radio"}
                             name={questionId}

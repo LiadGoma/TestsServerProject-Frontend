@@ -51,3 +51,6 @@
     background-color: rgb(47, 47, 185);
     color: white;
 }
+.error{
+    color: red;
+}

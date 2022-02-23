@@ -4,10 +4,7 @@ const validateQuestion = (question) => {
     if (question.questionText.length < 5) {
         errors.questionText = "Question text should be more than 5 characters \n";
     }
-    console.log(question.answers)
-    console.log(question.isMultiChoice)
     if (!question.isMultiChoice) {
-        console.log("in");
         let counter = 0;
         for (let index = 0; index < question.answers.length; index++) {
             if (question.answers[index].isCorrect === true) counter++;
@@ -32,6 +29,22 @@ const validateQuestion = (question) => {
     return errors
 
 }
+
+const validateTest = (test) =>{
+    const errors = {};
+
+    if (test.testName.length < 3) errors.testName = "A test's name must be over 3 characters in length!";
+    if (test.testField.length < 1) errors.field = "A test must have a field of study!";
+    if (test.testHeader.length < 5) errors.testIntroduction = "A test's introduction must be over 5 characters in length!";
+    //if (test.creatorEmail.length < 5) errors.creatorEmail = "A test must have a creator email!";
+    if (test.testPassingGrade < 55 || test.passingGrade > 100) errors.passingGrade = "A test's passing grade must be between 55 and 100!"
+    if (test.testSuccessText.length < 1) errors.successText = "A test must have a success text!";
+    if (test.testFailText.length < 1) errors.failureText = "A test must have a failure text!";
+    if (test.selectedQuestions.length < 5) errors.questions = "A test must have at least five questions!"
+    return errors;
+}
+
 module.exports = {
-    validateQuestion
+    validateQuestion,
+    validateTest
 }

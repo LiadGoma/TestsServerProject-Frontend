@@ -14,7 +14,6 @@ function EditTest() {
             const id = params.testId;
             if (id) {
                 const { data } = await getTestById(id);
-                console.log(data);
                 setEditTest(data);
             }
         }

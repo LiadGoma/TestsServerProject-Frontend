@@ -5,6 +5,10 @@ export async function getAllAnsweredTests() {
     const data = await axios.get(url);
     return data;
 }
+export async function getAllAnsweredTestsByQuery(query) {
+    const data = await axios.get(url+`?${query}`);
+    return data;
+}
 export async function createNewAnsweredTest(test) {
     return await axios.post(url, test);
 }

@@ -6,7 +6,6 @@ export async function getAllTests() {
     return data;
 }
 export async function createNewTest(test) {
-    console.log(test);
     return await axios.post(url, test);
 }
 export async function getTestById(id) {
@@ -14,7 +13,6 @@ export async function getTestById(id) {
     return data;
 }
 export async function updateTest(newTest, id) {
-    console.log(newTest)
-    const data = await axios.put(url + `/${id}`, newTest);
+    const data = await axios.put(`${url}/${id}`, newTest);
     return data;
 }
