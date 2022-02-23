@@ -3,14 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import TestForm from '../../components/TestForm/TestForm';
 import { getTestById, updateTest } from '../../services/testsService';
 import "./EditTest.css";
+
 function EditTest() {
     const [editTest, setEditTest] = useState(null);
     const navigate=useNavigate();
-    const params=useParams();
+    const params = useParams();
 
     useEffect(() => {
         const getTest = async () => {
-            const id =params.testId;
+            const id = params.testId;
             if (id) {
                 const { data } = await getTestById(id);
                 console.log(data);

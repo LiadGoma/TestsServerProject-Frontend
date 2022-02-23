@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import "./DataTableRow.css";
 
@@ -9,6 +9,10 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
     let values = Object.values(obj);
     const id = values[0];
     values = values.filter((value) => value != id);
+
+    useEffect(() => {
+        if(obj?.selected)setSelected(obj.selected);
+    }, [obj])
 
     const clickHandler = () => {
         editClick(id);
