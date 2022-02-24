@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import { getAnsweredTestById } from '../../services/answeredTestService';
+import { getRespondnetById } from '../../services/respondentsService';
+import { getTestById } from '../../services/testsService';
 import DataTable from '../DataTable/DataTable';
 import "./ReportByRespondentAndTest.css";
 
-function ReportByRespondentAndTest({ test, respondent }) {
+function ReportByRespondentAndTest() {
+  const params = useParams();
+  const [test, setTest] = useState();
+  const [answeredTest, setAnseredTest] = useState();
+  const [respondent, setRespondent] = useState();
+
+  useEffect(() => {
+    const fetchAnsweredTestData=async()=>{
+      const answeredTestId = params.answeredTestId;
+      const { data: selectedAnsweredTest } = await getAnsweredTestById(answeredTestId);
+      const { data: selectedTest } = await getTestById(selectedAnsweredTest.testId);
+      const { data: selectedRespondent } = await getRespondnetById(selectedAnsweredTest.respondentId);
+      console.log(selectedAnsweredTest);
+      console.log(selectedRespondent);
+      console.log(selectedTest);
+      setTest(selectedTest);
+      setAnseredTest(selectedAnsweredTest);
+      setRespondent(selectedRespondent);
+    }
+fetchAnsweredTestData();
+  }, [])
+
+
+ 
   return (
     <div>
       <h2>Test result for <span className='coloredWord'> dsdsfds</span></h2>

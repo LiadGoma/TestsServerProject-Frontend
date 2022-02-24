@@ -34,7 +34,7 @@ function MainPage() {
                                 <Route path="/editTest/:testId" element={<EditTest />} />
                                 <Route path="/testsReports" element={<TestsReports />} />
                                 <Route path="/respondentsReports" element={<RespondentsReports />} />
-                                <Route path="/AnsweredTestReport" element={<ReportByRespondentAndTest />} />
+                                <Route path="/AnsweredTestReport/:answeredTestId" element={<ReportByRespondentAndTest />} />
                             </Routes>
                         </div>
                     </div>

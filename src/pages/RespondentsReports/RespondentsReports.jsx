@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ReactPaginate from 'react-paginate';
 import DataTable from '../../components/DataTable/DataTable'
 import ReportByRespondent from '../../components/ReportByRespondent/ReportByRespondent';
 import ReportByRespondentAndTest from '../../components/ReportByRespondentAndTest/ReportByRespondentAndTest';
@@ -11,8 +12,13 @@ function RespondentsReports() {
   const [nameFilter, setNameFilter] = useState("");
   const [chosenRespondent, setChosenRespondent] = useState();
   const [showActivityReport, setShowActivityReport] = useState(false);
+  const [pageNumber, setPageNumber] = useState(0);
 
   const colnames = ["ID", "Respondent", "Email", "PhoneNumber"];
+  const respondentsPerPage = 8;
+  const pageVisited = pageNumber * respondentsPerPage;
+  const displayRespondents = list.slice(pageVisited, pageVisited + respondentsPerPage);
+  const pageCount = Math.ceil(list?.length / respondentsPerPage);
 
   useEffect(() => {
     const setRespondentsData = async () => {
@@ -47,6 +53,9 @@ function RespondentsReports() {
     setChosenRespondent(data);
     setShowActivityReport(true);
   }
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
 
   return (
     <div >
@@ -59,7 +68,18 @@ function RespondentsReports() {
           <input onChange={filterChangeHandler}></input>
         </div>
       </div>
-      <DataTable list={list} colNames={colnames} onSelect={onSelectHandler} />
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        pageCount={pageCount}
+        onPageChange={changePage}
+        containerClassName={"paginationButtons"}
+        previousLinkClassName={"previousBtn"}
+        nextLinkClassName={"nextBtn"}
+        disabledClassName={"paginationDisabled"}
+        activeClassName={"paginationActive"}
+      />
+      <DataTable list={displayRespondents} colNames={colnames} onSelect={onSelectHandler} />
       {showActivityReport && <ReportByRespondent respondent={chosenRespondent} />}
     </div>
   )

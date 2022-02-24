@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate';
 import { getAllAnsweredQuestionsByQuery } from '../../services/answeredQuestionService';
-import { getAllAnsweredTests, getAllAnsweredTestsByQuery } from '../../services/answeredTestService';
+import { getAllAnsweredTests, getAllAnsweredTestsByQuery, getAnsweredTestById } from '../../services/answeredTestService';
 import { getQuestionById } from '../../services/questionsService';
 import { getRespondnetById } from '../../services/respondentsService';
 import ReactHtmlParser from 'react-html-parser';
 import DataTable from '../DataTable/DataTable';
 import "./ReportByTest.css";
+import { useNavigate } from 'react-router-dom';
+import { getTestById } from '../../services/testsService';
 function ReportByTest({ test, fromDate, toDate }) {
+    const navigate = useNavigate();
+
     const [answeredTests, setAnsweredTests] = useState();
     const [tableList, setTableList] = useState();
     const [questions, setQuestions] = useState();
@@ -126,6 +130,10 @@ function ReportByTest({ test, fromDate, toDate }) {
     const questionsChangePage = ({ selected }) => {
         setQuestionsPageNumber(selected);
     }
+    const onAnsweredTestSelcetedHandler = async (value) => {
+        
+        navigate(`/answeredTestReport/${value.id}`);
+    }
     return (
         <div className='testReport'>
             <h2>Test Report :  {<span className='coloredWord'>{test.testName}</span>}</h2>
@@ -159,7 +167,7 @@ function ReportByTest({ test, fromDate, toDate }) {
                     disabledClassName={"paginationDisabled"}
                     activeClassName={"paginationActive"}
                 />
-                <DataTable list={displayAnsweredTests} colNames={colNames} />
+                <DataTable list={displayAnsweredTests} colNames={colNames} onSelect={onAnsweredTestSelcetedHandler} />
             </div>
 
             <div className='questionStats'>
