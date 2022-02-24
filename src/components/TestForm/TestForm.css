@@ -48,9 +48,13 @@
     color: white;
 }
 .paginationActive a{
+    visibility: visible;
     background-color: rgb(47, 47, 185);
     color: white;
 }
 .error{
     color: red;
+}
+.paginationDisabled a{
+    visibility: hidden;
 }

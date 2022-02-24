@@ -9,13 +9,12 @@ import { useSelector } from 'react-redux';
 import TestFinished from '../../components/TestFinished/TestFinished';
 import { getRespondnetById, updateRespondent } from '../../services/respondentsService';
 import { createNewAnsweredQuestion } from '../../services/answeredQuestionService';
+import TestIntroduction from '../../components/TestIntroduction/TestIntroduction';
 
 function TestPage() {
   const isAuth = useSelector((state) => state.respondentAuth.isAuthenticated);
   const respondentId = useSelector((state) => state.respondentAuth.respondentId);
   const params = useParams();
-
-
 
 
   const [test, setTest] = useState();
@@ -24,6 +23,7 @@ function TestPage() {
   const [isAllQuestionsAnswered, setIsAllQuestionsAnswered] = useState(false);
   const [isTestFinished, setIsTestFinished] = useState(false);
   const [answeredTestResults, setAnsweredTestResults] = useState();
+  const [isTestStarted, setIsTestStarted] = useState(false);
 
   const questions = test?.questions;
   const questionsPerPage = 1;
@@ -41,6 +41,9 @@ function TestPage() {
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
+  }
+  const testStartedHandler = () => {
+    setIsTestStarted(true);
   }
 
   const answerChangeHandler = (questionId, answerId) => {
@@ -69,6 +72,7 @@ function TestPage() {
     setAnsweredQuestions(tempAnsweredQuestions);
   }
   const submitTestHandler = async () => {
+
     let numOfCorrectAnswers = 0;
     answeredQuestions.map((answeredQuestion) => {
       if (answeredQuestion.isCorrect) {
@@ -84,8 +88,8 @@ function TestPage() {
       answeredQuestions: answeredQuestions,
       numOfCorrectAnswers: numOfCorrectAnswers
     }
-    const { data } = await createNewAnsweredTest(answeredTest);
 
+    const { data } = await createNewAnsweredTest(answeredTest);
     const { data: respondent } = await getRespondnetById(respondentId);
     respondent.answeredTestsId = [...respondent.answeredTestsId, data._id];
     updateRespondent(respondent, respondent._id);
@@ -103,8 +107,9 @@ function TestPage() {
     <div>
       {!isAuth && <Navigate to={"/test/login"} />}
       <div className='testHeader'>{test?.testName}</div>
-      {!isTestFinished ?
+      {!isTestStarted ? <TestIntroduction onClick={testStartedHandler} testIntroduction={test?.testIntroduction}/> : 
         <>
+      {!isTestFinished ?
           <div className='testPage'>
             <h3 className='questionHeader'>{`Question #${pageNumber + 1}`}</h3>
             {displayQuestion && <Question content={displayQuestion?.questionContent}
@@ -128,10 +133,12 @@ function TestPage() {
             {isAllQuestionsAnswered &&
               <button className='submitTestBtn' onClick={submitTestHandler}>SUBMIT TEST</button>}
           </div>
-        </>
         :
         <TestFinished test={test} answeredTest={answeredTestResults} />
       }
+      </>
+      }
+      
 
     </div>
   )

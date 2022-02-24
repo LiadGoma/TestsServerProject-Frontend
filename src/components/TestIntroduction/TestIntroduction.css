@@ -1,0 +1,19 @@
+.introductionWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 10rem;
+}
+.introduction{
+    font-size: 2rem;
+}
+.button{
+    border: 0;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 1rem;
+    align-self:flex-start;
+    background-color: rgb(226, 129, 17);
+    color: white;
+    
+}
