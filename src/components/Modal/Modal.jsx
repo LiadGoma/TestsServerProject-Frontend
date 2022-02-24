@@ -9,11 +9,11 @@ function Modal({ title, content, onConfirm }) {
                     <h2>{title}</h2>
                 </header>
                 <div className='modalContent'>
-                    {content.length > 1 &&
+                    {content.length > 0 &&
                         content.map((sentence, index) => {
                             return <div key={index}>{sentence}</div>
                         })}
-                    {content && <div>{content}</div>}
+                    {/* {content && <div>{content}</div>} */}
                 </div>
                 <footer className='actions'>
                     <button onClick={onConfirm}>Okay</button>
