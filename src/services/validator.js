@@ -16,7 +16,7 @@ const validateQuestion = (question) => {
         if (counter > 1) {
             errors.answers = "In a single choice question there should only be one correct answer \n";
         }
-        if(counter <1){
+        if (counter < 1) {
             errors.answers = "you must have atleast one correct answer";
         }
     }
@@ -30,7 +30,7 @@ const validateQuestion = (question) => {
 
 }
 
-const validateTest = (test) =>{
+const validateTest = (test) => {
     const errors = {};
 
     if (test.testName.length < 3) {
@@ -45,6 +45,10 @@ const validateTest = (test) =>{
     if (test.creatorEmail.length < 5) {
         errors.creatorEmail = "A test must have a creator email!";
     }
+    const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(!test.creatorEmail.match(emailValidation)){
+        errors.creatorEmail = "Email is not valid";
+    }
     if (test.testPassingGrade < 55 || test.passingGrade > 100) {
         errors.passingGrade = "A test's passing grade must be between 55 and 100!";
     }
@@ -58,10 +62,35 @@ const validateTest = (test) =>{
         errors.selectedQuestions = "A test must have at least five questions!"
     }
     return errors;
-}            
+}
+const validateRespondentLogin = (login) => {
+    const errors = {};
+    if (login.name.length < 3) {
+        errors.name = "Name must be over 3 characters";
+    }
+    if (login.name.length > 30) {
+        errors.name = "Name must be less than 30 characters";
+    }
+    if (login.email.length < 5) {
+        errors.email = "Email must be over 5 characters";
+    }
+    if (login.email.length > 50) {
+        errors.email = "Email must be less than 5 characters";
+    }
+    const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(!login.email.match(emailValidation)){
+        errors.email = "Email is not valid";
+    }
+    const re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+    if (login.phoneNumber.length != 10 || !re.test(login.phoneNumber)) {
+        errors.phoneNumber = "Phone number is not valid";
+    }
+    return errors;
 
+}
 
 module.exports = {
     validateQuestion,
-    validateTest
+    validateTest,
+    validateRespondentLogin
 }
