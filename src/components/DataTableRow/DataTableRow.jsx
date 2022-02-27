@@ -31,7 +31,7 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
     }
 
     return (
-        <tr onClick={selectHandler} className={selected ? "selected" : ""}>
+        <tr onClick={selectHandler} className={selected ? "selected" : "notSelected"}>
             {values?.map((value, index2) => {
                 if (Array.isArray(value)) {
                     return <td key={index2}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ReactPaginate from 'react-paginate';
 import { getAllAnsweredQuestionsByQuery } from '../../services/answeredQuestionService';
 import { getAllAnsweredTests, getAllAnsweredTestsByQuery, getAnsweredTestById } from '../../services/answeredTestService';
@@ -9,8 +9,11 @@ import DataTable from '../DataTable/DataTable';
 import "./ReportByTest.css";
 import { useNavigate } from 'react-router-dom';
 import { getTestById } from '../../services/testsService';
+import ReactToPrint from 'react-to-print';
+
 function ReportByTest({ test, fromDate, toDate }) {
     const navigate = useNavigate();
+    const componentRef = useRef();
 
     const [answeredTests, setAnsweredTests] = useState();
     const [tableList, setTableList] = useState();
@@ -131,11 +134,11 @@ function ReportByTest({ test, fromDate, toDate }) {
         setQuestionsPageNumber(selected);
     }
     const onAnsweredTestSelcetedHandler = async (value) => {
-        
+
         navigate(`/answeredTestReport/${value.id}`);
     }
     return (
-        <div className='testReport'>
+        <div className='testReport' ref={componentRef}>
             <h2>Test Report :  {<span className='coloredWord'>{test.testName}</span>}</h2>
             <h3>Summary</h3>
 
@@ -172,7 +175,7 @@ function ReportByTest({ test, fromDate, toDate }) {
 
             <div className='questionStats'>
                 <h3>Question Statistics</h3>
-                <div>Click a questoin to see its statistics</div>
+                {/* <div>Click a questoin to see its statistics</div>
                 <div className='questionStatsField'>
                     <div>Filter by tags or content</div>
                     <input></input>
@@ -180,7 +183,7 @@ function ReportByTest({ test, fromDate, toDate }) {
                 <div className='QuestionStatsButtonDiv'>
                     <button className="reportBtn">Show answer statistics of all questions</button>
                     <button className="reportBtn">Show detailed report of all answers</button>
-                </div>
+                </div> */}
                 <ReactPaginate
                     previousLabel={"Previous"}
                     nextLabel={"Next"}
@@ -194,8 +197,10 @@ function ReportByTest({ test, fromDate, toDate }) {
                 />
                 <DataTable list={displayAnsweredQuestions} colNames={questionsColNames} />
                 <div className='reportBtnDiv'>
-                    <button className="reportBtn">BACK</button>
-                    <button className="reportBtn">PRINT</button>
+                    <ReactToPrint
+                        trigger={() => <button className='reportBtn'>PRINT</button>}
+                        content={() => componentRef.current}
+                    />
                 </div>
 
             </div>

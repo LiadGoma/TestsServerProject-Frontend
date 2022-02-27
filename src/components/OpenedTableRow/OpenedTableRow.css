@@ -1,0 +1,30 @@
+.show{
+    display: block;
+}
+.notShow{
+    display: none;
+    visibility: collapse;
+}
+.correct{
+    color: rgb(14, 151, 14);
+    font-weight: bold;
+    background-color: rgb(168, 226, 207);
+}
+.answerReportDiv{
+    gap: 0;
+    margin-left: 3rem;
+    margin-top: 0.5rem;
+    text-align: left;
+}
+.answerReportDiv h3{
+    margin: 0;
+}
+.answerDiv{
+    padding:0;
+    margin: 0;
+}
+.false{
+    color: red;
+    font-weight: bold;
+    background-color: rgb(231, 179, 173);
+}

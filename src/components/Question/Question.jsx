@@ -6,7 +6,7 @@ function Question({ content, extraContent, answers, isHorizontal, isMultiChoice,
 
     const answerChangeHandler = (e) => {
         if (onAnswerChange) {
-            onAnswerChange(questionId, e.target.value);
+            onAnswerChange(questionId, e.target.value,e.target.checked);
         }
     }
     return (

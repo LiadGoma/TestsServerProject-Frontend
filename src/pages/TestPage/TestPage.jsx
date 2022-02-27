@@ -46,16 +46,54 @@ function TestPage() {
     setIsTestStarted(true);
   }
 
-  const answerChangeHandler = (questionId, answerId) => {
+  const answerChangeHandler = (questionId, answerId, isChecked) => {
     const questionIndex = questions.findIndex((question) => question._id === questionId);
     const answerIndex = questions[questionIndex].answers.findIndex((answer) => answer._id === answerId);
     const isCorrect = questions[questionIndex].answers[answerIndex].isCorrect;
+    const isMultiChoice = questions[questionIndex].isMultichoice;
+
+    const correctAnswers = [];
+    questions[questionIndex].answers.map((answer) => {
+      if (answer.isCorrect) {
+        correctAnswers.push(answer._id);
+      }
+    })
+
+
+
 
     const tempAnsweredQuestions = [...answeredQuestions];
     const isAnsweredQuestionExist = tempAnsweredQuestions.findIndex((answeredQuestion) => answeredQuestion.questionId === questionId);
+
     if (isAnsweredQuestionExist > -1) {
-      tempAnsweredQuestions[isAnsweredQuestionExist].answers = [answerId];
-      tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = isCorrect;
+      if (!isMultiChoice) {
+        tempAnsweredQuestions[isAnsweredQuestionExist].answers = [answerId];
+        tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = isCorrect;
+      }
+      else {
+        if (!isChecked) {
+          console.log(tempAnsweredQuestions[isAnsweredQuestionExist].answers)
+          tempAnsweredQuestions[isAnsweredQuestionExist].answers = tempAnsweredQuestions[isAnsweredQuestionExist].answers.filter((answer) => answer !== answerId);
+          if (isAnswersIdentical(correctAnswers, tempAnsweredQuestions[isAnsweredQuestionExist].answers)) {
+            tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = true;
+          }
+          else {
+            tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = false;
+          }
+          return;
+        }
+        tempAnsweredQuestions[isAnsweredQuestionExist].answers.push(answerId);
+        if (!isCorrect) tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = isCorrect;
+        else {
+          if (isAnswersIdentical(correctAnswers, tempAnsweredQuestions[isAnsweredQuestionExist].answers)) {
+            tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = true;
+          }
+          else {
+            tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = false;
+          }
+        }
+
+      }
       return;
     }
 
@@ -71,6 +109,17 @@ function TestPage() {
     }
     setAnsweredQuestions(tempAnsweredQuestions);
   }
+
+  const isAnswersIdentical = (answers1, answers2) => {
+    if (answers1.length !== answers2.length) {
+      return false;
+    }
+    answers1.map((answer) => {
+      if (!answers2.includes(answer)) return false;
+    })
+    return true;
+  }
+
   const submitTestHandler = async () => {
 
     let numOfCorrectAnswers = 0;
@@ -83,7 +132,7 @@ function TestPage() {
     const answeredTest = {
       testId: test._id,
       respondentId: respondentId,
-      isUserPassed: test.passingGrade < finalGrade,
+      isUserPassed: test.passingGrade <= finalGrade,
       finalGrade: finalGrade,
       answeredQuestions: answeredQuestions,
       numOfCorrectAnswers: numOfCorrectAnswers
@@ -107,38 +156,38 @@ function TestPage() {
     <div>
       {!isAuth && <Navigate to={"/test/login"} />}
       <div className='testHeader'>{test?.testName}</div>
-      {!isTestStarted ? <TestIntroduction onClick={testStartedHandler} testIntroduction={test?.testIntroduction}/> : 
+      {!isTestStarted ? <TestIntroduction onClick={testStartedHandler} testIntroduction={test?.testIntroduction} /> :
         <>
-      {!isTestFinished ?
-          <div className='testPage'>
-            <h3 className='questionHeader'>{`Question #${pageNumber + 1}`}</h3>
-            {displayQuestion && <Question content={displayQuestion?.questionContent}
-              extraContent={displayQuestion?.extraContent}
-              answers={displayQuestion?.answers}
-              isHorizontal={displayQuestion?.isHorizontal}
-              isMultiChoice={displayQuestion?.isMultichoice}
-              questionId={displayQuestion?._id} onAnswerChange={answerChangeHandler} />}
+          {!isTestFinished ?
+            <div className='testPage'>
+              <h3 className='questionHeader'>{`Question #${pageNumber + 1}`}</h3>
+              {displayQuestion && <Question content={displayQuestion?.questionContent}
+                extraContent={displayQuestion?.extraContent}
+                answers={displayQuestion?.answers}
+                isHorizontal={displayQuestion?.isHorizontal}
+                isMultiChoice={displayQuestion?.isMultichoice}
+                questionId={displayQuestion?._id} onAnswerChange={answerChangeHandler} />}
 
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              pageCount={pageCount}
-              onPageChange={changePage}
-              containerClassName={"paginationButtons"}
-              previousLinkClassName={"previousBtn"}
-              nextLinkClassName={"nextBtn"}
-              disabledClassName={"paginationDisabled"}
-              activeClassName={"paginationActive"}
-            />
-            {isAllQuestionsAnswered &&
-              <button className='submitTestBtn' onClick={submitTestHandler}>SUBMIT TEST</button>}
-          </div>
-        :
-        <TestFinished test={test} answeredTest={answeredTestResults} />
+              <ReactPaginate
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"paginationButtons"}
+                previousLinkClassName={"previousBtn"}
+                nextLinkClassName={"nextBtn"}
+                disabledClassName={"paginationDisabled"}
+                activeClassName={"paginationActive"}
+              />
+              {isAllQuestionsAnswered &&
+                <button className='submitTestBtn' onClick={submitTestHandler}>SUBMIT TEST</button>}
+            </div>
+            :
+            <TestFinished test={test} answeredTest={answeredTestResults} />
+          }
+        </>
       }
-      </>
-      }
-      
+
 
     </div>
   )
