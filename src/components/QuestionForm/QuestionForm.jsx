@@ -33,15 +33,17 @@ function QuestionForm({ edit, editQuestion }) {
 
     }, [edit])
 
-    useEffect(() => {
-        const tempAnswers = [
-            { id: 0, content: "", isCorrect: false },
-            { id: 1, content: "", isCorrect: false },
-            { id: 2, content: "", isCorrect: false },
-            { id: 3, content: "", isCorrect: false }
-        ]
-        setAnswers(tempAnswers);
-    }, [])
+    // useEffect(() => {
+    //     if (!edit){
+    //     const tempAnswers = [
+    //         { id: 0, content: "", isCorrect: false },
+    //         { id: 1, content: "", isCorrect: false },
+    //         { id: 2, content: "", isCorrect: false },
+    //         { id: 3, content: "", isCorrect: false }
+    //     ]
+    //     setAnswers(tempAnswers);
+    //     }
+    // }, [])
 
 
     const selectQuestionTypeChangeHandler = (e) => {
