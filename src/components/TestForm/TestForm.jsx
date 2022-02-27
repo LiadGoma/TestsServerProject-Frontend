@@ -92,14 +92,14 @@ function TestForm({ edit, editTest }) {
     const closeModal = () => {
         setIsErrors(false);
     }
-    const canShowAnswersChangeHandler = () =>{
+    const canShowAnswersChangeHandler = () => {
         setCanShowAnswers(!canShowAnswers);
     }
-    const emailChangeHandler = (e) =>{
+    const emailChangeHandler = (e) => {
         setCreatorEmail(e.target.value);
     }
 
-    const handleSaveClick =async () => {
+    const handleSaveClick = async () => {
         const validateErrors = validateTest({
             testName,
             testField,
@@ -112,7 +112,10 @@ function TestForm({ edit, editTest }) {
         });
         setErrors(validateErrors);
 
-        if (Object.values(validateErrors).length > 0) setIsErrors(true);
+        if (Object.values(validateErrors).length > 0) {
+            setIsErrors(true);
+            return;
+        };
 
         const newTest = {
             testName: testName,
@@ -131,81 +134,82 @@ function TestForm({ edit, editTest }) {
             navigation("/testsManager");
             return;
         }
-        if(Object.values(validateErrors).length < 1){
+        if (Object.values(validateErrors).length < 1) {
             createNewTest(newTest).then(() => navigation("/testsManager"));
         }
     }
 
 
     const selectedQuestionHandler = (question) => {
-
+        let temp = selectedQuestions;
         if (!selectedQuestions.find((q) => q.id === question.id)) {
-            selectedQuestions.push({ id: question.id });
-            setSelectedQuestions(selectedQuestions)
+            temp.push({ id: question.id });
+            setSelectedQuestions(temp);
         }
         else {
-            setSelectedQuestions(selectedQuestions.filter((q) => q.id !== question.id));
+            temp = temp.filter((q) => q.id !== question.id);
+            setSelectedQuestions(temp);
         }
     }
 
 
     return (
         <>
-        {isErrors && <Modal title="Errors" content={Object.values(Object.values(errors))} onConfirm={closeModal} />}
+            {isErrors && <Modal title="Errors" content={Object.values(Object.values(errors))} onConfirm={closeModal} />}
 
-        <div className="form">
-            <div className="field">
-                <label className={errors.testName ? "error" : ""}>Test Name:</label>
-                <input onChange={nameChangeHandler} defaultValue={testName}></input>
-            </div>
-            <div className="field">
-                <label className={errors.field ? "error" : ""}>Field of Study:</label>
-                <input onChange={fieldChangeHandler} defaultValue={testField}></input>
-            </div>
-            <div className="field">
-                <label>Passing Grade:</label>
-                <input type="number" min="55" max="100" onChange={passingGradeChangeHandler} value={testPassingGrade}></input>
-            </div>
-            <div className='field'>
-                <label>Allow Students to See Correct Answers After Submission</label>
-                <input type="checkbox" onChange={canShowAnswersChangeHandler} checked={canShowAnswers}/>
-            </div>
-            <div className="field">
-                <label className={errors.creatorEmail ? "error" : ""}>Creator EMail:</label>
-                <input onChange={emailChangeHandler} defaultValue={creatorEmail}></input>
-            </div>
-            <div>
-                <label className={errors.testIntroduction ? "error" : ""}>Header</label>
-                <TextEditor height={200} initValue={testHeader} changeHandler={headerContentChangeHandler} />
-            </div>
-            <div>
-                <label className={errors.successText ? "error" : ""}>Message to Show on Success:</label>
-                <TextEditor height={200} initValue={testSuccessText} changeHandler={successContentChangeHandler} />
-            </div>
-            <div>
-                <label className={errors.failureText ? "error" : ""}>Message to Show on Failure:</label>
-                <TextEditor height={200} initValue={testFailText} changeHandler={failContentChangeHandler} />
-            </div>
-            <div>
-                <h3 className={`field ${errors.selectedQuestions ? "error" : ""}`}>Select the question you want to include in the test</h3>
-                <div className="questions">
-                    <ReactPaginate
-                        previousLabel={"Previous"}
-                        nextLabel={"Next"}
-                        pageCount={pageCount}
-                        onPageChange={changePage}
-                        containerClassName={"paginationButtons"}
-                        previousLinkClassName={"previousBtn"}
-                        nextLinkClassName={"nextBtn"}
-                        disabledClassName={"paginationDisabled"}
-                        activeClassName={"paginationActive"}
-                    />
-                    <DataTable list={displayQuestions} colNames={colNames} onSelect={selectedQuestionHandler} />
+            <div className="form">
+                <div className="field">
+                    <label className={errors.testName ? "error" : ""}>Test Name:</label>
+                    <input onChange={nameChangeHandler} defaultValue={testName}></input>
                 </div>
+                <div className="field">
+                    <label className={errors.field ? "error" : ""}>Field of Study:</label>
+                    <input onChange={fieldChangeHandler} defaultValue={testField}></input>
+                </div>
+                <div className="field">
+                    <label>Passing Grade:</label>
+                    <input type="number" min="55" max="100" onChange={passingGradeChangeHandler} value={testPassingGrade}></input>
+                </div>
+                <div className='field'>
+                    <label>Allow Students to See Correct Answers After Submission</label>
+                    <input type="checkbox" onChange={canShowAnswersChangeHandler} checked={canShowAnswers} />
+                </div>
+                <div className="field">
+                    <label className={errors.creatorEmail ? "error" : ""}>Creator EMail:</label>
+                    <input onChange={emailChangeHandler} defaultValue={creatorEmail}></input>
+                </div>
+                <div>
+                    <label className={errors.testIntroduction ? "error" : ""}>Header</label>
+                    <TextEditor height={200} initValue={testHeader} changeHandler={headerContentChangeHandler} />
+                </div>
+                <div>
+                    <label className={errors.successText ? "error" : ""}>Message to Show on Success:</label>
+                    <TextEditor height={200} initValue={testSuccessText} changeHandler={successContentChangeHandler} />
+                </div>
+                <div>
+                    <label className={errors.failureText ? "error" : ""}>Message to Show on Failure:</label>
+                    <TextEditor height={200} initValue={testFailText} changeHandler={failContentChangeHandler} />
+                </div>
+                <div>
+                    <h3 className={`field ${errors.selectedQuestions ? "error" : ""}`}>Select the question you want to include in the test</h3>
+                    <div className="questions">
+                        <ReactPaginate
+                            previousLabel={"Previous"}
+                            nextLabel={"Next"}
+                            pageCount={pageCount}
+                            onPageChange={changePage}
+                            containerClassName={"paginationButtons"}
+                            previousLinkClassName={"previousBtn"}
+                            nextLinkClassName={"nextBtn"}
+                            disabledClassName={"paginationDisabled"}
+                            activeClassName={"paginationActive"}
+                        />
+                        <DataTable list={displayQuestions} colNames={colNames} onSelect={selectedQuestionHandler} />
+                    </div>
+                </div>
+                <button className='formBtn green' onClick={handleSaveClick}>SAVE</button>
             </div>
-            <button className='formBtn green' onClick={handleSaveClick}>SAVE</button>
-        </div>
-    </>
+        </>
     )
 }
 

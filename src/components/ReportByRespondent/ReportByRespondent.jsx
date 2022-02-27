@@ -49,7 +49,7 @@ function ReportByRespondent({ respondent }) {
     }, [tests])
 
     const testSelectHandler = (value) => {
-        navigate("/answeredTestReport");
+        navigate(`/answeredTestReport/${value.id}`);
     }
     return (
         <div className='reportByRespondent'>
