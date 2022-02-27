@@ -4,15 +4,22 @@ const validateQuestion = (question) => {
     if (question.questionText.length < 5) {
         errors.questionText = "Question text should be more than 5 characters \n";
     }
-    if (!question.isMultiChoice) {
-        let counter = 0;
-        for (let index = 0; index < question.answers.length; index++) {
-            if (question.answers[index].isCorrect === true) counter++;
-            if (question.answers[index].content.length < 1) {
-                errors.answers = "an answer cannot be empty";
-            }
-
+    let counter = 0;
+    for (let index = 0; index < question.answers.length; index++) {
+        if (question.answers[index].isCorrect === true) counter++;
+        if (question.answers[index].content.length < 1) {
+            errors.answers = "an answer cannot be empty";
         }
+    }
+    if (question.isMultiChoice){
+        if (counter <= 1){
+            errors.answers = "In a multi-choice question there should be at least 2 correct answers";
+        }
+        if (counter >= question.answers.length){
+            errors.answers = "In a multi-choice question there should be at least one incorrect answer";
+        }
+    }
+    if (!question.isMultiChoice) {
         if (counter > 1) {
             errors.answers = "In a single choice question there should only be one correct answer \n";
         }

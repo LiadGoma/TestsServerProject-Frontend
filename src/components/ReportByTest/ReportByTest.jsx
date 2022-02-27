@@ -179,7 +179,7 @@ function ReportByTest({ test, fromDate, toDate }) {
                 </div>
                 <div className='QuestionStatsButtonDiv'>
                     <button className="reportBtn">Show answer statistics of all questions</button>
-                    <button className="reportBtn">Show detailed report of al answers</button>
+                    <button className="reportBtn">Show detailed report of all answers</button>
                 </div>
                 <ReactPaginate
                     previousLabel={"Previous"}

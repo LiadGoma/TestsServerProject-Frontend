@@ -21,8 +21,8 @@ function Answer({ id, changeAnswer, deleteHandler, initContent, initIsCorrect })
         <div className='answer'>
             <button className='answerButton' onClick={deleteBtnHandler}>x</button>
             <TextEditor height={150} changeHandler={textChangeHandler} initValue = {initContent} />
-            <input type="checkbox" onChange={changeHandler} name="isCorrects" id={id} checked={initIsCorrect}/>
-            <label htmlFor={id}>{!isAnswerCorrect ? "correct" : "incorrect"}</label>
+            <input type="checkbox" onChange={changeHandler} name="isCorrects" id={id} defaultChecked={initIsCorrect}/>
+            <label htmlFor={id}>Correct</label>
         </div>
     )
 }
