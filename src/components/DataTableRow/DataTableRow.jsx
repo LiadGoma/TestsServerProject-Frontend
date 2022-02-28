@@ -11,7 +11,13 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
     values = values.filter((value) => value != id);
 
     useEffect(() => {
-        if (obj?.selected) setSelected(obj.selected);
+        // console.log(obj)
+        if (obj?.selected) {
+            setSelected(obj.selected);
+        }
+        else{
+            setSelected(false);
+        }
     }, [obj])
 
     const clickHandler = () => {
@@ -25,13 +31,14 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
     }
     const selectHandler = () => {
         if (onSelect) {
-            setSelected(!selected);
+            setSelected((prev) => !prev);
             onSelect(obj);
         }
     }
 
     return (
         <tr onClick={selectHandler} className={selected ? "selected" : "notSelected"}>
+                    {console.log(selected)}
             {values?.map((value, index2) => {
                 if (Array.isArray(value)) {
                     return <td key={index2}>
