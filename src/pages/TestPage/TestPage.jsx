@@ -72,7 +72,6 @@ function TestPage() {
       }
       else {
         if (!isChecked) {
-          console.log(tempAnsweredQuestions[isAnsweredQuestionExist].answers)
           tempAnsweredQuestions[isAnsweredQuestionExist].answers = tempAnsweredQuestions[isAnsweredQuestionExist].answers.filter((answer) => answer !== answerId);
           if (isAnswersIdentical(correctAnswers, tempAnsweredQuestions[isAnsweredQuestionExist].answers)) {
             tempAnsweredQuestions[isAnsweredQuestionExist].isCorrect = true;
