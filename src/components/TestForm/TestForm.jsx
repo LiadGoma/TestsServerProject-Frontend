@@ -42,7 +42,7 @@ function TestForm({ edit, editTest }) {
                 setTestSuccessText(edit.successText);
                 setTestFailText(edit.failureText);
                 setTestField(edit.field);
-                const tempSelectedQuestions = edit.questions.map((question) => { return { id: question._id } });
+                const tempSelectedQuestions = edit.questions.map((question) => { return  question._id});
                 setSelectedQuestions(tempSelectedQuestions);
                 setCanShowAnswers(edit.canShowAnswers);
                 setCreatorEmail(edit.creatorEmail);
@@ -52,21 +52,23 @@ function TestForm({ edit, editTest }) {
     }, [edit]);
 
     useEffect(() => {
-        getAllQuestions().then((response) => setQuestionList(response.data.map((question, index) => {
-            let testingSelected = false;
-            const isSelected = selectedQuestions.forEach(selectedQuestion => {
-                if (selectedQuestion.id === question._id) {
-                    testingSelected = true;
+        const setQuestionData = async () => {
+            const { data } = await getAllQuestions();
+
+            const tempQuestions=data.map((question,index) => {
+                let testingSelected = selectedQuestions.includes(question._id);
+                return {
+                    id: question._id,
+                    index,
+                    questionContent: [ReactHtmlParser(question.questionContent), ...question.tags],
+                    selected: testingSelected
                 }
-            });
-            return {
-                id: question._id,
-                index,
-                questionContent: [ReactHtmlParser(question.questionContent), ...question.tags],
-                selected: testingSelected
-            }
-        })));
-    }, [selectedQuestions, displayQuestions]);
+              
+            })
+            setQuestionList(tempQuestions);
+        }
+      setQuestionData();
+    }, [selectedQuestions]);
 
     const nameChangeHandler = (e) => {
         setTestName(e.target.value);
@@ -116,7 +118,7 @@ function TestForm({ edit, editTest }) {
             setIsErrors(true);
             return;
         };
-
+console.log(selectedQuestions)
         const newTest = {
             testName: testName,
             field: testField ? testField : "",
@@ -142,12 +144,12 @@ function TestForm({ edit, editTest }) {
 
     const selectedQuestionHandler = (question) => {
         let temp = selectedQuestions;
-        if (!selectedQuestions.find((q) => q.id === question.id)) {
-            temp.push({ id: question.id });
+        if (!selectedQuestions.find((q) => q === question.id)) {
+            temp.push(question.id);
             setSelectedQuestions(temp);
         }
         else {
-            temp = temp.filter((q) => q.id !== question.id);
+            temp = temp.filter((q) => q !== question.id);
             setSelectedQuestions(temp);
         }
     }
