@@ -118,7 +118,6 @@ function TestForm({ edit, editTest }) {
             setIsErrors(true);
             return;
         };
-console.log(selectedQuestions)
         const newTest = {
             testName: testName,
             field: testField ? testField : "",
@@ -126,7 +125,7 @@ console.log(selectedQuestions)
             creatorEmail: creatorEmail,
             passingGrade: testPassingGrade,
             canShowAnswers: true,
-            certificationURL: "What the actual fuck",
+            certificationURL: "",
             successText: testSuccessText,
             failureText: testFailText,
             questions: selectedQuestions

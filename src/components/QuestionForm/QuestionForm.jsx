@@ -33,19 +33,6 @@ function QuestionForm({ edit, editQuestion }) {
 
     }, [edit])
 
-    // useEffect(() => {
-    //     if (!edit){
-    //     const tempAnswers = [
-    //         { id: 0, content: "", isCorrect: false },
-    //         { id: 1, content: "", isCorrect: false },
-    //         { id: 2, content: "", isCorrect: false },
-    //         { id: 3, content: "", isCorrect: false }
-    //     ]
-    //     setAnswers(tempAnswers);
-    //     }
-    // }, [])
-
-
     const selectQuestionTypeChangeHandler = (e) => {
         setIsMultiChoice(e.target.value);
     }
@@ -87,12 +74,7 @@ function QuestionForm({ edit, editQuestion }) {
         setShowQuestion(true);
     }
     const handleSaveClick = () => {
-         //console.log(isMultiChoice);
-        // console.log(isHorizontal);
-        // console.log(questionText);
-        // console.log(extraContent);
-        //console.log(answers);
-        // console.log(tags);
+        
         const validateErrors = validateQuestion({
             isHorizontal,
             isMultiChoice,

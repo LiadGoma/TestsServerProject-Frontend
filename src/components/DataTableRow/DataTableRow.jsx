@@ -11,7 +11,6 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
     values = values.filter((value) => value != id);
 
     useEffect(() => {
-        // console.log(obj)
         if (obj?.selected) {
             setSelected(obj.selected);
         }
@@ -38,7 +37,6 @@ function DataTableRow({ obj, editClick, showClick, deleteClick, onSelect, copyLi
 
     return (
         <tr onClick={selectHandler} className={selected ? "selected" : "notSelected"}>
-                    {console.log(selected)}
             {values?.map((value, index2) => {
                 if (Array.isArray(value)) {
                     return <td key={index2}>
