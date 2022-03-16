@@ -4,10 +4,11 @@ import DataTable from '../../components/DataTable/DataTable';
 import { getAllTests } from '../../services/testsService';
 import "./TestsManager.css";
 import ReactPaginate from "react-paginate";
+import { TextField } from '@mui/material';
 
 
 function TestsManager() {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [tests, setTests] = useState([]);
     const [filteredTests, setFilteredTests] = useState([]);
     const [list, setList] = useState([]);
@@ -60,7 +61,7 @@ function TestsManager() {
     const addNewTestClickHandler = () => {
         navigate("/AddNewTest");
     }
-    const changePage=({selected})=>{
+    const changePage = ({ selected }) => {
         setPageNumber(selected);
     }
     return (
@@ -68,18 +69,24 @@ function TestsManager() {
             <h3>Available Tests for</h3>
             <div className='filter'>
                 <div>Filter by name</div>
-                <input value={tagsFilter} onChange={filterChangeHandler}></input>
+                <TextField
+                    value={tagsFilter}
+                    onChange={filterChangeHandler}
+                    id="search-tags"
+                    type="search"
+                    variant="standard"
+                />
             </div>
             <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={"paginationButtons"}
-            previousLinkClassName={"previousBtn"}
-            nextLinkClassName={"nextBtn"}
-            disabledClassName={"paginationDisabled"}
-            activeClassName={"paginationActive"}
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"paginationButtons"}
+                previousLinkClassName={"previousBtn"}
+                nextLinkClassName={"nextBtn"}
+                disabledClassName={"paginationDisabled"}
+                activeClassName={"paginationActive"}
             />
             <DataTable list={displayTests}
                 colNames={colNames}

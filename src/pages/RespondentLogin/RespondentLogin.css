@@ -1,31 +1,34 @@
+.loginPage{
+    background:url("https://th.bing.com/th/id/R.e688140bb327855b605a41d6d03f49b5?rik=7vwP4HzeV7MPkw&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f5%2f4%2fc%2f495791.jpg&ehk=cihmodvYCziXRscZG9bxZ9sQ4JfD2NG4dAH2vo8I8Uk%3d&risl=&pid=ImgRaw&r=0") ;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    z-index: -2;
+}
 .loginForm{
+    z-index: 2;
     display: flex;
     flex-direction: column;
+    background-color: aliceblue;
     gap: 2rem;
     padding: 1rem;
     border: 1px solid rgba(0, 0, 0, 0.247);
     border-radius: 10px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
     0 4px 4px rgba(0, 0, 0, 0.11), 0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
-    margin: 5rem auto;
+    align-self: center;
     max-width: 20rem;
+    min-width: 18rem;
 }
 .loginField{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
-.loginBtn{
-    border: 0;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: rgb(29, 124, 124);
-    color: white;
-    padding: 1rem;
-    max-width: 10rem;
-    align-self: center;
 
-}
 .loginErorr{
     color: red;
 }

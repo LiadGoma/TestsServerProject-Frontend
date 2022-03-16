@@ -19,7 +19,7 @@ function ReportByRespondent({ respondent }) {
             const tempTestList = [];
             for (let index = 0; index < temp?.length; index++) {
                 const { data } = await getAnsweredTestById(temp[index]);
-                const {data:test} = await getTestById(data.testId);
+                const { data: test } = await getTestById(data.testId);
                 data.testName = test.testName;
                 tempTestList.push(data);
             }
@@ -48,6 +48,15 @@ function ReportByRespondent({ respondent }) {
         setTableList(tempList);
     }, [tests])
 
+    const getAvarageGrades = () => {
+        let grades = 0;
+        tests?.map((t) => {
+            grades += t.finalGrade;
+        })
+        const avarage=grades/tests?.length;
+        return avarage.toFixed(2);
+    }
+
     const testSelectHandler = (value) => {
         navigate(`/answeredTestReport/${value.id}`);
     }
@@ -56,7 +65,7 @@ function ReportByRespondent({ respondent }) {
             <h2> Activity Report for: <span className='coloredWord'>{respondent.name}</span> </h2>
             <div className='smallHeaders'>
                 <div>Click a test to show its results</div>
-                <div className='boldWord'>{`Avarage grade for a test:`}</div>
+                <div className='boldWord'>{`Avarage grade for a test:${getAvarageGrades()}`}</div>
             </div>
             <DataTable list={tableList} colNames={colNames} onSelect={testSelectHandler} />
         </div>
