@@ -6,11 +6,16 @@ import { validateQuestion } from '../../services/validator';
 import "./QuestionForm.css";
 import Modal from '../Modal/Modal';
 import Question from '../Question/Question';
+
+import TextField from '@mui/material/TextField';
+
+
 import { useNavigate } from 'react-router-dom';
+import { FormControlLabel, FormLabel, InputLabel, MenuItem, NativeSelect, Radio, RadioGroup, Select } from '@mui/material';
 
 
 function QuestionForm({ edit, editQuestion }) {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const [isMultiChoice, setIsMultiChoice] = useState(false);
     const [isHorizontal, setIsHorizontal] = useState(false);
     const [questionText, setQuestionText] = useState("");
@@ -74,7 +79,7 @@ function QuestionForm({ edit, editQuestion }) {
         setShowQuestion(true);
     }
     const handleSaveClick = () => {
-        
+
         const validateErrors = validateQuestion({
             isHorizontal,
             isMultiChoice,
@@ -94,13 +99,13 @@ function QuestionForm({ edit, editQuestion }) {
             answers,
             tags
         }
-        if(edit){
+        if (edit) {
             editQuestion(newQuestion, edit._id)
             return;
         }
-         if (Object.values(validateErrors).length < 1) {
-              createNewQuestion(newQuestion);
-              navigate("/questionsManager");
+        if (Object.values(validateErrors).length < 1) {
+            createNewQuestion(newQuestion);
+            navigate("/questionsManager");
         }
 
     }
@@ -118,29 +123,36 @@ function QuestionForm({ edit, editQuestion }) {
                     />
                 }
                 onConfirm={closeModal} />}
-            <div className='form'>
+            <div className='questionform'>
                 <div className='field'>
-                    <label>Question Type</label>
-                    <select value={isMultiChoice} onChange={selectQuestionTypeChangeHandler}>
-                        <option value={false} >Single Choice Question</option>
-                        <option value={true}>Multi Choice Question</option>
-                    </select>
+                    <Select
+                        labelId="select-typeQuestion"
+                        id="questionTypeSelect"
+                        value={isMultiChoice}
+                        label="Question"
+                        variant='standard'
+                        onChange={selectQuestionTypeChangeHandler}
+                    >
+                        <MenuItem value={false} >Single Choice Question</MenuItem>
+                        <MenuItem value={true}>Multi Choice Question</MenuItem>
+                    </Select>
                 </div>
                 <div className="field">
-                    <label className={errors.questionText ? "error" : ""}>Question Text</label>
+                    <FormLabel className={errors.questionText ? "error" : ""} id="questionTextLabel">Question Text</FormLabel>
                     <TextEditor height={200} initValue={questionText} changeHandler={questionContentChangeHandler} />
                 </div>
                 <div className='field'>
-                    <label>Text Below Question</label>
-                    <TextEditor height={200} initValue = {extraContent} changeHandler={extraContentChangeHandler} />
+                    <label></label>
+                    <FormLabel  id="TextBelowLabel">Text Below Question</FormLabel>
+                    <TextEditor height={200} initValue={extraContent} changeHandler={extraContentChangeHandler} />
                 </div>
 
                 <div className={`field ${errors.answers ? "error" : ""}`}>
                     <label>Possible Answers</label>
                     <div className='answers'>
                         {answers.map((answer, index) => {
-                            return <Answer key={index} deleteHandler={deleteBtnHandler} isMultiChoice={answer.isMultiChoice} initIsCorrect={answer.isCorrect} 
-                                        initContent={answer.content} changeAnswer={changeAnswer} id={answer.id}/>
+                            return <Answer key={index} deleteHandler={deleteBtnHandler} isMultiChoice={answer.isMultiChoice} initIsCorrect={answer.isCorrect}
+                                initContent={answer.content} changeAnswer={changeAnswer} id={answer.id} />
                         })}
                         <button className='answerBtn' onClick={addAnswerClickHandler}>ADD AN ANSWER</button>
                     </div>
@@ -148,15 +160,35 @@ function QuestionForm({ edit, editQuestion }) {
                 </div>
 
                 <div className='field'>
-                    <label>Answers Layout</label>
-                    <input type="radio" onChange={selectIsHorizontalChangeHandler} defaultChecked={isHorizontal} name="layout" value={true} id="horizontal" />
-                    <label htmlFor="horizontal">Horizontal</label>
-                    <input type="radio" onChange={selectIsHorizontalChangeHandler} defaultChecked={!isHorizontal} name="layout" value={false} id="vertical" />
-                    <label htmlFor="vertical">Vertical</label>
+                    <FormLabel id="demo-row-radio-buttons-group-label">Answers Layout</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="row-radio-buttons-group"
+                    >
+                        <FormControlLabel
+                            control={<Radio />}
+                            label="Horizontal"
+                            onChange={selectIsHorizontalChangeHandler}
+                            name="layout"
+                            value={true}
+                            id="horizontal" />
+                        <FormControlLabel control={<Radio />} label="Vertical"
+                            onChange={selectIsHorizontalChangeHandler}
+                            name="layout"
+                            value={false}
+                            id="vertical" />
+                    </RadioGroup>
                 </div>
                 <div className={`field ${errors.tags ? "error" : ""}`}>
-                    <label>Tags</label>
-                    <input onChange={tagsChangeHandler} value={tags}></input>
+                    <TextField
+                        id="filled-search"
+                        label="Tags"
+                        type="search"
+                        variant="filled"
+                        onChange={tagsChangeHandler} value={tags}
+                    />
+
                 </div>
                 <div className='bottomBtns'>
                     <button className='formBtn' onClick={showQuestionHandler}>SHOW</button>

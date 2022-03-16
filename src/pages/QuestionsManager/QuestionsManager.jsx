@@ -7,6 +7,7 @@ import Modal from '../../components/Modal/Modal';
 import Question from '../../components/Question/Question';
 import { useNavigate } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
+import { TextField } from '@mui/material';
 
 function QuestionsManager() {
     const navigate = useNavigate();
@@ -80,7 +81,7 @@ function QuestionsManager() {
         const filtered = questions.filter((question) => question.tags.filter((tag) => tag.includes(e.target.value)).length > 0);
         setFilteredQuestions(filtered);
     }
-    const changePage=({selected})=>{
+    const changePage = ({ selected }) => {
         setPageNumber(selected);
     }
 
@@ -101,21 +102,27 @@ function QuestionsManager() {
             <h3>Available questions for</h3>
             <div className='filter'>
                 <div>Filter by tags or content</div>
-                <input value={tagsFilter} onChange={filterChangeHandler}></input>
+                <TextField
+                    value={tagsFilter}
+                    onChange={filterChangeHandler}
+                    id="search-tags"
+                    type="search"
+                    variant="standard"
+                />
             </div>
             <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={"paginationButtons"}
-            previousLinkClassName={"previousBtn"}
-            nextLinkClassName={"nextBtn"}
-            disabledClassName={"paginationDisabled"}
-            activeClassName={"paginationActive"}
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"paginationButtons"}
+                previousLinkClassName={"previousBtn"}
+                nextLinkClassName={"nextBtn"}
+                disabledClassName={"paginationDisabled"}
+                activeClassName={"paginationActive"}
             />
             <DataTable list={displayQuestions} colNames={colNames} editClick={handleEditClick} showClick={handleShowClick} deleteClick={handleDeleteClick} />
-      
+
             <button className='btn' onClick={handleClick}>ADD NEW QUESTION</button>
         </div>
 
